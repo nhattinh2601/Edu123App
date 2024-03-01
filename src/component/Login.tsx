@@ -26,8 +26,8 @@ const Login = () => {
       setUsernameError("");
       setPasswordError("");
 
-      if (!username.includes("@gmail.com")) {
-        setUsernameError("Tên người dùng phải có định dạng @gmail.com");
+      if (!username.includes("@")) {
+        setUsernameError("Tên người dùng phải có định dạng @");
         return;
       }
 

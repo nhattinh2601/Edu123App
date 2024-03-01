@@ -6,16 +6,17 @@ import logo from '../image/logo.png';
 const Home = () => {
   const navigation = useNavigation(); 
 
+  
   useEffect(() => {
     const timeout = setTimeout(() => {
-      navigation.navigate('Login');
+      navigation.navigate('HomePage');
     }, 3000);
 
     return () => {
       clearTimeout(timeout);
     };
   }, [navigation]);
-
+  
   return (
     <View style={styles.container}>
       <Image source={logo} style={styles.logo} />
