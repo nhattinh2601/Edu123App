@@ -14,6 +14,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-native-fontawesome": "^0.3.0",
     "@react-native-async-storage/async-storage": "^1.22.2",
+    "@react-navigation/bottom-tabs": "^6.5.16",
     "@react-navigation/native": "^6.1.12",
     "@react-navigation/stack": "^6.3.23",
     "axios": "^1.6.7",
