@@ -14,7 +14,7 @@ import Search from './src/component/Search/Search';
 import Study from './src/component/Study/Study';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faShoppingCart, faStar, faHome, faSearch, faBook, faUser } from "@fortawesome/free-solid-svg-icons";
-
+import Cart from './src/component/Cart/Cart';
 
 
 const Stack = createStackNavigator();
@@ -24,7 +24,7 @@ const BottomTabs = () => {
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarShowLabel: false,
-        headerShown: false,
+        headerShown: true,
         tabBarStyle: {
           // backgroundColor: '#1A1A23',
           backgroundColor: 'gray',
@@ -71,7 +71,21 @@ const BottomTabs = () => {
           );
         },
       })}>
-      <Tab.Screen name="Home" component={HomePage} />
+      <Tab.Screen name="Home" component={HomePage} options={({ navigation }) => ({
+      headerTitle: '',
+      headerRight: () => (
+        <Ionic
+          name="cart-outline"
+          size={36}
+          onPress={() => {
+            // Chuyển hướng đến component Cart khi nhấn vào icon cart
+            navigation.navigate('Cart');
+          }}
+          style={{ marginRight: 15 }}
+        />
+      ),
+      
+    })}/>
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="Study" component={Study} />
       <Tab.Screen name="User" component={User} />
@@ -79,23 +93,6 @@ const BottomTabs = () => {
     </Tab.Navigator>
   );
 };
-
-// const App = () => {
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator initialRouteName="HomePage" screenOptions={{
-//           headerShown: false,
-//         }}>
-//         {/* <Stack.Screen name="Introduce" component={Introduce} />
-//         <Stack.Screen name="Register" component={Register} />
-//         <Stack.Screen name="Login" component={Login} /> */}
-//         <Stack.Screen name="HomePage" component={Login} />
-//         {/* <Stack.Screen name="ForgetPassword" component={ForgetPassword} /> */}
-//         <Stack.Screen name="BottomTabs" component={BottomTabs} />
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   );
-// };
 
 const App = () => {
   return (
@@ -105,7 +102,19 @@ const App = () => {
           headerShown: false,
         }}>
         <Stack.Screen name="BottomTabs" component={BottomTabs} />
-        
+        <Stack.Screen name="Cart" component={Cart} options={({ navigation }) => ({
+    headerShown: true,
+    headerLeft: () => (
+      <Ionic
+        name="arrow-back"
+        size={24}
+        onPress={() => {
+          navigation.navigate('Home');
+        }}
+        style={{ marginLeft: 15 }}
+      />
+    ),
+  })}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

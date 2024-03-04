@@ -70,6 +70,7 @@ function CourseNew() {
 export default function HomePage() {
   return (
     <View className="flex flex-col justify-center items-center">
+      <ScrollView>
       <View className="w-[90%] h-[30%] bg-white m-3 flex flex-row justify-center items-center">
       <Image
         className="w-[90%] h-[90%]"
@@ -77,15 +78,14 @@ export default function HomePage() {
       />
       </View>
     <View className="w-[90%] h-[50%] bg-slate-300">
-
       <View className="w-[90%] h-[30%] bg-green-200 m-3 flex flex-row">
         <CourseNew />
         <View className="w-[30%] h-[90%] bg-blue-200 m-3 flex flex-col"></View>
         <View className="w-[30%] h-[90%] bg-blue-200 m-3 flex flex-col"></View>
       </View>
-      
       </View>
-        
+      </ScrollView>
+
     </View>
   );
 }
