@@ -1,0 +1,17 @@
+[
+  {
+    "title": "slideshow 1",
+    "promo": "50% off",
+    "url": "http://res.cloudinary.com/dqptxftlv/image/upload/v1709799555/zjirvvfglwfdagk7bq3r.jpg"
+  },
+  {
+    "title": "slideshow 2",
+    "promo": "10% off",
+    "url": "http://res.cloudinary.com/dqptxftlv/image/upload/v1709799591/rkb89cncw4dh5ygvwexq.jpg"
+  },
+  {
+    "title": "slideshow 3",
+    "promo": "20% off",
+    "url": "http://res.cloudinary.com/dqptxftlv/image/upload/v1709799685/jmuz2stydrunszgnwja1.jpg"
+  }
+]
