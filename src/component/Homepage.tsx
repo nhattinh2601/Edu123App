@@ -6,14 +6,12 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  FlatList,
-  StatusBar,
+  FlatList,  
   ActivityIndicator,
   Dimensions,
   Animated,
 } from 'react-native';
 import {Rating} from 'react-native-ratings';
-import courseImage from '../image/cv-1_m.png';
 import axiosClient from '../api/axiosClient';
 
 const {width, height} = Dimensions.get('window');
@@ -21,35 +19,6 @@ const carouseItem = require('../image/carousel.json');
 
 const viewConfigRef = {viewAreaCoveragePercentThreshold: 95};
 
-const data = [
-  {
-    id: '1',
-    name: 'Thập diện mai phục',
-    images: 'https://i.imgur.com/n99keF9.jpg',
-    year: '2004',
-  },
-  {
-    id: '2',
-    name: 'Avatar 2',
-    images:
-      'https://upload.wikimedia.org/wikipedia/vi/e/e0/Avatar_D%C3%B2ng_ch%E1%BA%A3y_c%E1%BB%A7a_n%C6%B0%E1%BB%9Bc_-_Poster_ch%C3%ADnh_th%E1%BB%A9c.jpg',
-    year: '2022',
-  },
-  {
-    id: '3',
-    name: 'Cuộc đời của Pi',
-    images:
-      'https://m.media-amazon.com/images/M/MV5BNTg2OTY2ODg5OF5BMl5BanBnXkFtZTcwODM5MTYxOA@@._V1_.jpg',
-    year: '2012',
-  },
-  {
-    id: '4',
-    name: 'Indiana Jones và chiếc rương thánh tích',
-    images:
-      'https://toplist.vn/images/800px/indiana-jones-va-chiec-ruong-thanh-tich-1031552.jpg',
-    year: '1981',
-  },
-];
 
 interface CarouselItems {
   title: string;
@@ -57,42 +26,8 @@ interface CarouselItems {
   promo: string;
 }
 
-function Course() {
-  return (
-    <View className="w-[40%] h-[100%] ml-3 mr-3  mt-0 mb-0  flex flex-col border-0 border-solid border-gray-300 w-50 h-50 bg-white  rounded items-center">
-      <Image
-        className="w-full h-[40%]"
-        source={courseImage} // Sử dụng đường dẫn tương đối
-      />
-      <Text
-        className="text-base font-bold  text-black"
-        style={{alignSelf: 'flex-start'}}>
-        Thành thạo Canvas trong 21 ngày
-      </Text>
-      <Text style={{alignSelf: 'flex-start'}}> Nguyễn Nhật Tính </Text>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          alignSelf: 'flex-start',
-        }}>
-        <Rating ratingCount={5} imageSize={15} startingValue={4} />
-        <Text> (10)</Text>
-      </View>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignSelf: 'flex-start',
-        }}>
-        <Text className="text-base font-bold">298.000đ </Text>
-        <Text className="text-sm line-through">500.000đ</Text>
-      </View>
-    </View>
-  );
-}
-export default function HomePage() {
+const HomePage = ({navigation}) => {
   let flatListRef = useRef<FlatList<CarouselItems> | null>();
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -114,19 +49,12 @@ export default function HomePage() {
   const [topRatingCourses, settopRatingCourses] = useState([]);
 
   const WIDTH = Dimensions.get('screen').width;
-  const ITEM_WIDTH = WIDTH * 0.45;
-  const MOVIE_SPACER_WIDTH = WIDTH / 10;
+  const ITEM_WIDTH = WIDTH * 0.45;  
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const getMoviesDataFromDB = async () => {
-    setIsLoading(true);
-    const response = await axiosClient.get('/courses/get4CourseSoldRelateInfo');
-    setMoviesData(response.data.result);
-    console.log(moviesData);
-    setIsLoading(false);
-  };
+  
   const fetchTopSold = async () => {
     try {
       setIsLoading(true);
@@ -275,8 +203,8 @@ export default function HomePage() {
                   <TouchableOpacity
                     activeOpacity={0.9}
                     onPress={() =>
-                      navigation.navigate('MovieDetails', {
-                        movieId: item.course_id,
+                      navigation.navigate('CourseDetails', {
+                        courseId: item.course_id,
                       })
                     }
                     style={{
@@ -377,8 +305,8 @@ export default function HomePage() {
                   <TouchableOpacity
                     activeOpacity={0.9}
                     onPress={() =>
-                      navigation.navigate('MovieDetails', {
-                        movieId: item.course_id,
+                      navigation.navigate('CourseDetails', {
+                        courseId: item.course_id,
                       })
                     }
                     style={{
@@ -574,3 +502,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
 });
+
+
+export default HomePage;
