@@ -47,7 +47,13 @@ const Search = ({navigation}) => {
         Danh mục khóa học
       </Text>
       
-      <TouchableOpacity className='ml-2 mr-2 '>
+      <TouchableOpacity className='ml-2 mr-2 ' 
+      onPress={() =>
+        navigation.navigate('CategoryDetails', {
+          categoryId: 11,
+        })
+      }
+      >
         <View className='flex-row items-center p-1'>
       <FontAwesomeIcon
                 icon={faLanguage}
@@ -59,7 +65,12 @@ const Search = ({navigation}) => {
       <View className="border-b border-black w-full mt-0 mb-0" />
       </TouchableOpacity>
 
-      <TouchableOpacity className='ml-2 mr-2 '>
+      <TouchableOpacity className='ml-2 mr-2 ' 
+      onPress={() =>
+        navigation.navigate('CategoryDetails', {
+          categoryId: 14,
+        })
+      }>
         <View className='flex-row items-center p-1'>
       <FontAwesomeIcon
                 icon={faBullhorn}
@@ -71,7 +82,13 @@ const Search = ({navigation}) => {
       <View className="border-b border-black w-full mt-0 mb-0" />
       </TouchableOpacity>
 
-      <TouchableOpacity className='ml-2 mr-2 p-1'>
+      <TouchableOpacity className='ml-2 mr-2 p-1' 
+      onPress={() =>
+        navigation.navigate('CategoryDetails', {
+          categoryId: 24,
+        })
+      }
+      >
         <View className='flex-row items-center'>
       <FontAwesomeIcon
                 icon={faDesktop}
@@ -83,7 +100,11 @@ const Search = ({navigation}) => {
       <View className="border-b border-black w-full mt-0 mb-0" />
       </TouchableOpacity>      
 
-      <TouchableOpacity className='ml-2 mr-2 p-1'>
+      <TouchableOpacity className='ml-2 mr-2 p-1' onPress={() =>
+        navigation.navigate('CategoryDetails', {
+          categoryId: 25,
+        })
+      }>
         <View className='flex-row items-center'>
       <FontAwesomeIcon
                 icon={faPencilRuler}
@@ -95,19 +116,27 @@ const Search = ({navigation}) => {
       <View className="border-b border-black w-full mt-0 mb-0" />
       </TouchableOpacity> 
 
-      <TouchableOpacity className='ml-2 mr-2 p-1'>
+      <TouchableOpacity className='ml-2 mr-2 p-1' onPress={() =>
+        navigation.navigate('CategoryDetails', {
+          categoryId: 26,
+        })
+      }>
         <View className='flex-row items-center'>
       <FontAwesomeIcon
                 icon={faUserGraduate}
                 size={30}
                 style={{ opacity: 0.8, padding: "5px" }}                
               />
-      <Text className='text-base ml-5'>Phát triển cá nhân</Text>      
+      <Text className='text-base ml-5'>Phát triển bản thân</Text>      
       </View>
       <View className="border-b border-black w-full mt-0 mb-0" />
       </TouchableOpacity> 
 
-      <TouchableOpacity className='ml-2 mr-2 p-1'>
+      <TouchableOpacity className='ml-2 mr-2 p-1' onPress={() =>
+        navigation.navigate('CategoryDetails', {
+          categoryId: 12,
+        })
+      }>
         <View className='flex-row items-center'>
       <FontAwesomeIcon
                 icon={faLaptopCode}

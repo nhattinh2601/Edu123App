@@ -13,6 +13,7 @@ import Study from './src/component/Study/Study';
 
 import Cart from './src/component/Cart/Cart';
 import CourseDetails from './src/component/Course/CourseDetail';
+import CategoryDetails from './src/component/Category/CategoryDetails';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -112,7 +113,7 @@ const App = () => {
                 name="arrow-back"
                 size={24}
                 onPress={() => {
-                  navigation.navigate('Home');
+                  navigation.goBack();
                 }}
                 style={{marginLeft: 15}}
               />
@@ -130,12 +131,16 @@ const App = () => {
                 name="arrow-back"
                 size={24}
                 onPress={() => {
-                  navigation.navigate('Home');
+                  navigation.goBack();
                 }}
                 style={{marginLeft: 15}}
               />
             ),
           })}
+        />
+        <Stack.Screen
+          name="CategoryDetails"
+          component={CategoryDetails}          
         />
       </Stack.Navigator>
     </NavigationContainer>
