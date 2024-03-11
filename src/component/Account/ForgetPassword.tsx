@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform 
 } from "react-native";
-import axiosClient from "../api/axiosClient";
+import axiosClient from "../../api/axiosClient";
 import { useNavigation } from "@react-navigation/native";
 
 function ForgetPassword() {

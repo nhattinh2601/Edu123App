@@ -105,20 +105,12 @@ const CategoryDetails = ({route, navigation}) => {
       </View>
       {/* content */}
       <View className="w-full  m-0 p-0 border-0 flex flex-row bg-gray ">
-        {isLoading && (
-          <View
-            style={{
-              position: 'absolute',
-              right: 10,
-              top: '60%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 20,
-              zIndex: 1,
-            }}>
-            <ActivityIndicator size="large" color="gray" />
-          </View>
-        )}
+          {isLoading && (
+            <View className="absolute">
+              <ActivityIndicator size="large" color="gray" />
+            </View>
+          )}          
+        
         <FlatList
           data={courses}
           showsVerticalScrollIndicator={false}

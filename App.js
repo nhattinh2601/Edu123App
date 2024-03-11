@@ -2,7 +2,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 
-
 import HomePage from './src/component/Homepage';
 
 import User from './src/component/User/User';
@@ -14,6 +13,9 @@ import Study from './src/component/Study/Study';
 import Cart from './src/component/Cart/Cart';
 import CourseDetails from './src/component/Course/CourseDetail';
 import CategoryDetails from './src/component/Category/CategoryDetails';
+import Login from './src/component/Account/Login';
+import Register from './src/component/Account/Register';
+import ForgetPassword from './src/component/Account/ForgetPassword';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -86,11 +88,21 @@ const BottomTabs = () => {
           ),
         })}
       />
-      <Tab.Screen name="Search" component={Search} options={() => ({
-    headerShown: false,    
-  })}/>
+      <Tab.Screen
+        name="Search"
+        component={Search}
+        options={() => ({
+          headerShown: false,
+        })}
+      />
       <Tab.Screen name="Study" component={Study} />
-      <Tab.Screen name="User" component={User} />
+      <Tab.Screen
+        name="User"
+        component={User}
+        options={{
+          title: 'Tài khoản', // Tiêu đề của tab
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -125,7 +137,7 @@ const App = () => {
           component={CourseDetails}
           options={({navigation}) => ({
             headerShown: true,
-            headerTitle: 'Chi tiết khóa học',        
+            headerTitle: 'Chi tiết khóa học',
             headerLeft: () => (
               <Ionic
                 name="arrow-back"
@@ -138,10 +150,10 @@ const App = () => {
             ),
           })}
         />
-        <Stack.Screen
-          name="CategoryDetails"
-          component={CategoryDetails}          
-        />
+        <Stack.Screen name="CategoryDetails" component={CategoryDetails} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );
