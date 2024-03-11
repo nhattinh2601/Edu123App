@@ -1,22 +1,16 @@
 import {useState, useEffect, useRef} from 'react';
 import {
-  View,
-  Animated,
+  View,  
   Text,
   TouchableOpacity,
-  ActivityIndicator,
-  Dimensions,
-  StyleSheet,
+  ActivityIndicator,  
   FlatList,
-  Image
+  Image,
 } from 'react-native';
 import {Rating} from 'react-native-ratings';
 import Ionic from 'react-native-vector-icons/Ionicons';
 import axiosClient from '../../api/axiosClient';
 
-
-
-const {width, height} = Dimensions.get('window');
 
 const CategoryDetails = ({route, navigation}) => {
   const {categoryId} = route.params;
@@ -26,7 +20,6 @@ const CategoryDetails = ({route, navigation}) => {
   const [categoryName, setCategoryName] = useState('');
   const [courses, setCourses] = useState([]);
 
-  
   const getCategoryName = async () => {
     try {
       setIsLoading(true);
@@ -45,12 +38,7 @@ const CategoryDetails = ({route, navigation}) => {
     }
   };
 
-  //Flatlist
-  
-  const WIDTH = Dimensions.get('screen').width;
-  const ITEM_WIDTH = WIDTH * 0.45;
-  const scrollX = useRef(new Animated.Value(0)).current;
-
+  //Flatlist  
   const getCoursesByCategory = async () => {
     try {
       setIsLoading(true);
@@ -59,11 +47,7 @@ const CategoryDetails = ({route, navigation}) => {
       );
       setCourses(response.data);
       console.log(
-        'loading course by category finish,' +
-          ' id:' +
-          categoryId +
-          ' data:' +
-          response.data,
+        'loading ' + response.data.length+ ' course by category finish'
       );
       setIsLoading(false);
     } catch (error) {
@@ -73,8 +57,7 @@ const CategoryDetails = ({route, navigation}) => {
 
   useEffect(() => {
     getCategoryName();
-    getCoursesByCategory();
-    console.log(courses);
+    getCoursesByCategory();    
   }, []);
 
   return (
@@ -121,12 +104,7 @@ const CategoryDetails = ({route, navigation}) => {
         </View>
       </View>
       {/* content */}
-      <View>
-        <Text>CategoryDetails {categoryId}</Text>
-      </View>
-      <View
-        className="w-full  m-0 p-0 border-0 flex flex-row bg-slate-300 "
-        style={{height: 0.25 * height}}>
+      <View className="w-full  m-0 p-0 border-0 flex flex-row bg-gray ">
         {isLoading && (
           <View
             style={{
@@ -138,39 +116,28 @@ const CategoryDetails = ({route, navigation}) => {
               height: 20,
               zIndex: 1,
             }}>
-            <ActivityIndicator size="large" color="#ffffff" />
+            <ActivityIndicator size="large" color="gray" />
           </View>
         )}
         <FlatList
           data={courses}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={item => item.course_id}
-          onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {x: scrollX}}}],
-            {useNativeDriver: false},
-          )}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => item.Id}
           contentContainerStyle={{
-            justifyContent: 'center',
-            position: 'relative',
-            paddingBottom: 0,
+            paddingBottom: 20,
             zIndex: 1,
           }}
-          snapToInterval={ITEM_WIDTH}
-          snapToAlignment="start"
-          decelerationRate={0.6}
-          scrollEventThrottle={64}
-          // onEndReached={handelOnEnd}
-
+          numColumns={2}
           renderItem={({item, index}) => {
             return (
               <View
-                className="w-[40%] h-[100%] border-0 border-solid border-gray-300  bg-white  rounded "
                 style={{
-                  width: ITEM_WIDTH,
-                  position: 'relative',
-                  paddingHorizontal: 20,
-                }}>
+                  flex: 1,
+                  paddingHorizontal: 8,
+                  marginBottom: 16, // Khoảng cách giữa các item
+                }} 
+                className='bg-white ml-1 mr-1'
+                >
                 <TouchableOpacity
                   activeOpacity={0.9}
                   onPress={() =>
@@ -182,36 +149,29 @@ const CategoryDetails = ({route, navigation}) => {
                     backgroundColor: 'transparent',
                   }}>
                   <Image
-                    className="w-full h-[40%]"
+                    style={{
+                      width: '100%',
+                      aspectRatio: 4 / 3, // Tỉ lệ khung hình của ảnh
+                      borderRadius: 8, // Bo góc cho ảnh
+                      marginBottom: 8, // Khoảng cách giữa ảnh và các thông tin khác
+                    }}
                     source={{uri: item.image}}
                   />
-                  <Text
-                    className="text-base font-bold  text-black"
-                    style={{alignSelf: 'flex-start'}}>
+                  <Text style={{fontWeight: 'bold', fontSize: 16}}>
                     {item.title}
                   </Text>
-                  <Text style={{alignSelf: 'flex-start'}}>
-                    {' '}
-                    {item.user_name}{' '}
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      alignSelf: 'flex-start',
-                    }}>
+                  <Text>{item.user_name}</Text>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Rating ratingCount={5} imageSize={15} startingValue={4} />
-                    <Text> (10)</Text>
+                    <Text>({item.rating_count})</Text>
                   </View>
-
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignSelf: 'flex-start',
-                    }}>
-                    <Text className="text-base font-bold">{item.price}đ</Text>
-                    <Text className="text-sm line-through">
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={{fontWeight: 'bold'}}>{item.price}đ</Text>
+                    <Text
+                      style={{
+                        textDecorationLine: 'line-through',
+                        marginLeft: 4,
+                      }}>
                       {item.promotional_price}đ
                     </Text>
                   </View>
@@ -224,45 +184,5 @@ const CategoryDetails = ({route, navigation}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  carousel: {
-    maxHeight: 300,
-  },
-  image: {
-    width,
-    height: 250,
-    resizeMode: 'cover',
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    height: 50,
-    paddingHorizontal: 40,
-    alignContent: 'center',
-    backgroundColor: '#000',
-  },
-  footerText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  dotView: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginVertical: 20,
-  },
-  circle: {
-    width: 10,
-    height: 10,
-    backgroundColor: 'grey',
-    borderRadius: 50,
-    marginHorizontal: 5,
-  },
-});
 
 export default CategoryDetails;
