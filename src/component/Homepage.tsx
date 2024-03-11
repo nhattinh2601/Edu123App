@@ -43,7 +43,6 @@ const HomePage = ({navigation}) => {
   };
 
   //Flatlist
-  const [moviesData, setMoviesData] = useState([]);
   const [topNewCourses, setTopNewCourses] = useState([]);
   const [topSoldCourses, settopSoldCourses] = useState([]);
   const [topRatingCourses, settopRatingCourses] = useState([]);
@@ -407,8 +406,8 @@ const HomePage = ({navigation}) => {
                   <TouchableOpacity
                     activeOpacity={0.9}
                     onPress={() =>
-                      navigation.navigate('MovieDetails', {
-                        movieId: item.course_id,
+                      navigation.navigate('CourseDetails', {
+                        courseId: item.course_id,
                       })
                     }
                     style={{

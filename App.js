@@ -1,26 +1,16 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import Introduce from './src/component/Introduce';
-import Register from './src/component/Register';
-import Login from './src/component/Login';
+
+
 import HomePage from './src/component/Homepage';
-import ForgetPassword from './src/component/ForgetPassword';
-import Home from './src/component/Home/Home';
+
 import User from './src/component/User/User';
-import {NativeScreenContainer} from 'react-native-screens';
+
 import Ionic from 'react-native-vector-icons/Ionicons';
 import Search from './src/component/Search/Search';
 import Study from './src/component/Study/Study';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faShoppingCart,
-  faStar,
-  faHome,
-  faSearch,
-  faBook,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons';
+
 import Cart from './src/component/Cart/Cart';
 import CourseDetails from './src/component/Course/CourseDetail';
 
@@ -95,7 +85,9 @@ const BottomTabs = () => {
           ),
         })}
       />
-      <Tab.Screen name="Search" component={Search} />
+      <Tab.Screen name="Search" component={Search} options={() => ({
+    headerShown: false,    
+  })}/>
       <Tab.Screen name="Study" component={Study} />
       <Tab.Screen name="User" component={User} />
     </Tab.Navigator>
