@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; 
 import { 
   View, 
   Text, 
   TextInput, 
   TouchableOpacity, 
-  StyleSheet 
+  StyleSheet, 
+  Image, 
+  Dimensions 
 } from "react-native";
 import axiosClient from "../../api/axiosClient";
 import { useNavigation } from '@react-navigation/native'; 
+import logo from "../../image/logo.png";
+
+const {width, height} = Dimensions.get('window');
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -58,46 +63,47 @@ const Login = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.logo}>EDU123</Text>
-      <View style={styles.inputView}>
+    <View className="flex-1 justify-center items-center bg-white">
+      <View className="w-[80%] h-[20%]  items-center bg-slate-400">
+        <Image source={logo} resizeMode="contain" className="flex-1 items-center justify-center"/>
+      </View>
+      <View className="items-start w-full">
+        <Text className="font-bold text-black ml-10 text-base" >Email</Text>
+      </View>
+      <View className="w-[80%] bg-white border opacity-80Nguy rounded-lg h-12 mb-5 flex-row items-center px-5">        
         <TextInput
-          style={styles.inputText}
-          placeholder="Username"
+          className="h-12 text-black ml-0 flex-1"
           placeholderTextColor="#003f5c"
           onChangeText={(text) => setUsername(text)}
         />
       </View>
-      <Text style={styles.errorText}>{usernameError}</Text>
-      <View style={styles.inputView}>
+      <View className="items-start w-full">
+        <Text className="font-bold text-black ml-10 text-base" >Mật Khẩu</Text>
+      </View>      
+      <View className="w-[80%] bg-white border opacity-80Nguy rounded-lg h-12 mb-5 flex-row items-center px-5">
         <TextInput
           secureTextEntry
-          style={styles.inputText}
-          placeholder="Password"
-          placeholderTextColor="#003f5c"
+          className="h-12 text-black ml-0 flex-1"
+          placeholderTextColor="#003f5c"          
           onChangeText={(text) => setPassword(text)}
         />
       </View>
+      <Text style={styles.errorText}>{usernameError}</Text>
       <Text style={styles.errorText}>{passwordError}</Text>
       <TouchableOpacity style={styles.checkboxContainer}>
-        <TouchableOpacity
-          style={styles.checkbox}
-          onPress={() => setRememberPassword(!rememberPassword)}
-        >
-          <Text style={styles.label}>Lưu mật khẩu</Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={navigateToRegister}>
+        <Text className="text-black">Đăng ký tài khoản</Text>
+      </TouchableOpacity>
         <TouchableOpacity onPress={navigateToForgetPassword}>
-          <Text style={styles.label}>Quên mật khẩu?</Text>
+          <Text className="text-black">Quên mật khẩu?</Text>
         </TouchableOpacity>
       </TouchableOpacity>
       <Text style={styles.errorText}>{loginError}</Text>
       <Text style={[styles.errorText, { color: 'green' }]}>{loginSuccess}</Text>
-      <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-        <Text style={styles.loginText}>Đăng nhập</Text>
+      <TouchableOpacity className="w-[80%] bg-blue-500 rounded-lg h-12 flex items-center justify-center mt-5 mb-5" onPress={handleLogin}>
+        <Text className="text-white">Đăng nhập</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={navigateToRegister}>
-        <Text style={styles.signupText}>Đăng ký tài khoản</Text>
-      </TouchableOpacity>
+      
     </View>
   );
 };
@@ -119,7 +125,7 @@ const styles = StyleSheet.create({
     width: "80%",
     backgroundColor: "#465881",
     borderRadius: 25,
-    height: 50,
+    height: 50,    
     marginBottom: 5,
     flexDirection: "row",
     alignItems: "center",
@@ -168,6 +174,11 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     textAlign: "center",
   },
+  image: {
+    width: 150,
+    height: 250,
+    resizeMode: 'cover',
+  }
 });
 
 export default Login;

@@ -1,4 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
+import {LazyLoadImage} from 'react-lazy-load-image-component';
 import {
   StyleSheet,
   Text,
@@ -6,7 +7,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  FlatList,  
+  FlatList,
   ActivityIndicator,
   Dimensions,
   Animated,
@@ -19,13 +20,11 @@ const carouseItem = require('../image/carousel.json');
 
 const viewConfigRef = {viewAreaCoveragePercentThreshold: 95};
 
-
 interface CarouselItems {
   title: string;
   url: string;
   promo: string;
 }
-
 
 const HomePage = ({navigation}) => {
   let flatListRef = useRef<FlatList<CarouselItems> | null>();
@@ -48,20 +47,24 @@ const HomePage = ({navigation}) => {
   const [topRatingCourses, settopRatingCourses] = useState([]);
 
   const WIDTH = Dimensions.get('screen').width;
-  const ITEM_WIDTH = WIDTH * 0.45;  
+  const ITEM_WIDTH = WIDTH * 0.45;
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const [isLoading, setIsLoading] = useState(false);
 
-  
   const fetchTopSold = async () => {
     try {
       setIsLoading(true);
+      const startTime = performance.now();
       const response = await axiosClient.get(
         '/courses/get4CourseSoldRelateInfo',
       );
+      const endTime = performance.now();
+
+      const elapsedTime = endTime - startTime;
       settopSoldCourses(response.data);
-      console.log("loading top sold course finish");
+      console.log('loading top sold course finish');
+      console.log('top sold: ', elapsedTime, 'milliseconds');
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching top sold courses:', error);
@@ -71,11 +74,17 @@ const HomePage = ({navigation}) => {
   const fetchTopRating = async () => {
     try {
       setIsLoading(true);
+      const startTime = performance.now();
+
       const response = await axiosClient.get(
         '/courses/get4CourseRatingRelateInfo',
       );
+      const endTime = performance.now();
+
+      const elapsedTime = endTime - startTime;
       settopRatingCourses(response.data);
-      console.log("loading top rating course finish");
+      console.log('loading top rating course finish');
+      console.log('top rating: ', elapsedTime, 'milliseconds');
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching top rating courses:', error);
@@ -85,18 +94,24 @@ const HomePage = ({navigation}) => {
   const fetchTopNewCourses = async () => {
     try {
       setIsLoading(true);
+      const startTime = performance.now();
+
       const response = await axiosClient.get(
-        "/courses/get4CourseNewRelateInfo"
+        '/courses/get4CourseNewRelateInfo',
       );
+      const endTime = performance.now();
+
+      const elapsedTime = endTime - startTime;
       setTopNewCourses(response.data);
-      console.log("loading top new course finish");
+      console.log('loading top new course finish');
+      console.log('new course: ', elapsedTime, 'milliseconds');
       setIsLoading(false);
     } catch (error) {
-      console.error("Error fetching top new courses:", error);
+      console.error('Error fetching top new courses:', error);
     }
   };
 
-  useEffect(() => {        
+  useEffect(() => {
     fetchTopSold();
     fetchTopRating();
     fetchTopNewCourses();
@@ -108,6 +123,7 @@ const HomePage = ({navigation}) => {
         onPress={() => console.log('clicked')}
         activeOpacity={1}>
         <Image source={{uri: item.url}} style={styles.image} />
+
         <View style={styles.footer}>
           <Text style={styles.footerText}>{item.title}</Text>
           <Text style={styles.footerText}>{item.promo}</Text>
@@ -161,7 +177,7 @@ const HomePage = ({navigation}) => {
                 position: 'absolute',
                 right: 10,
                 top: '60%',
-                justifyContent: 'center', 
+                justifyContent: 'center',
                 alignItems: 'center',
                 height: 20,
                 zIndex: 1,
@@ -212,6 +228,9 @@ const HomePage = ({navigation}) => {
                     <Image
                       className="w-full h-[40%]"
                       source={{uri: item.image}}
+                      resizeMode="cover" // Đảm bảo hình ảnh bao phủ toàn bộ không gian được cung cấp mà không bị méo hoặc căng
+                      blurRadius={1} // Tạo hiệu ứng làm mờ nhẹ để giảm thời gian chờ đợi cho người dùng
+                      priority="low"
                     />
                     <Text
                       className="text-base font-bold  text-black"
@@ -263,7 +282,7 @@ const HomePage = ({navigation}) => {
                 position: 'absolute',
                 right: 10,
                 top: '60%',
-                justifyContent: 'center', 
+                justifyContent: 'center',
                 alignItems: 'center',
                 height: 20,
                 zIndex: 1,
@@ -365,7 +384,7 @@ const HomePage = ({navigation}) => {
                 position: 'absolute',
                 right: 10,
                 top: '60%',
-                justifyContent: 'center', 
+                justifyContent: 'center',
                 alignItems: 'center',
                 height: 20,
                 zIndex: 1,
@@ -460,7 +479,7 @@ const HomePage = ({navigation}) => {
       </ScrollView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -501,6 +520,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
 });
-
 
 export default HomePage;

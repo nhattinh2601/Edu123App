@@ -16,6 +16,9 @@ import CategoryDetails from './src/component/Category/CategoryDetails';
 import Login from './src/component/Account/Login';
 import Register from './src/component/Account/Register';
 import ForgetPassword from './src/component/Account/ForgetPassword';
+import React from 'react';
+
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

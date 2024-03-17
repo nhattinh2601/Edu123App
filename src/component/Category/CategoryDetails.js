@@ -42,13 +42,21 @@ const CategoryDetails = ({route, navigation}) => {
   const getCoursesByCategory = async () => {
     try {
       setIsLoading(true);
+      const startTime = performance.now();
       const response = await axiosClient.get(
         '/courses/searchCategory/' + categoryId,
       );
+      // const response = await axiosClient.get(
+      //   '/courses/get4CourseNewRelateInfo',
+      // );
+      const endTime = performance.now();
+
+      const elapsedTime = endTime - startTime;
       setCourses(response.data);
       console.log(
         'loading ' + response.data.length+ ' course by category finish'
       );
+      console.log('category details: ', elapsedTime, 'milliseconds');
       setIsLoading(false);
     } catch (error) {
       console.error('Error fetching course:', error);
@@ -56,8 +64,8 @@ const CategoryDetails = ({route, navigation}) => {
   };
 
   useEffect(() => {
-    getCategoryName();
     getCoursesByCategory();    
+    getCategoryName();
   }, []);
 
   return (

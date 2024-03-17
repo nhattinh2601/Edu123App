@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import axiosClient from '../../api/axiosClient';
 import { useNavigation } from '@react-navigation/native'; 
+import logo from "../../image/logo.png";
 
 const Register = () => {
   const [fullname, setFullname] = useState('');
@@ -64,48 +65,54 @@ const Register = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.logo}>Đăng kí</Text>
-      <View style={styles.inputView}>
+    <View className="flex-1 justify-center items-center bg-white">
+      <View className="w-[80%] h-[20%]  items-center bg-slate-400">
+        <Image source={logo} resizeMode="contain" className="flex-1 items-center justify-center"/>
+      </View>      
+      <View className="items-start w-full">
+        <Text className="font-bold text-black ml-10 text-base" >Họ và tên</Text>
+      </View>
+      <View className="w-[80%] bg-white border opacity-80Nguy rounded-lg h-12 mb-5 flex-row items-center px-5">
         <TextInput
-          style={styles.inputText}
-          placeholder="Họ và tên"
-          placeholderTextColor="#003f5c"
+         className="h-12 text-black ml-0 flex-1"
+         placeholderTextColor="#003f5c"
           onChangeText={(text) => setFullname(text)}
         />
       </View>
-      <Text style={styles.errorText}>{fullnameError}</Text>
-      <View style={styles.inputView}>
+      <View className="items-start w-full">
+        <Text className="font-bold text-black ml-10 text-base" >Email</Text>
+      </View>
+      <View className="w-[80%] bg-white border opacity-80Nguy rounded-lg h-12 mb-5 flex-row items-center px-5">
         <TextInput
-          style={styles.inputText}
-          placeholder="Email"
+          className="h-12 text-black ml-0 flex-1"
           placeholderTextColor="#003f5c"
           onChangeText={(text) => setEmail(text)}
         />
       </View>
-      <Text style={styles.errorText}>{usernameError}</Text>
-      <View style={styles.inputView}>
+      <View className="items-start w-full">
+        <Text className="font-bold text-black ml-10 text-base" >Số điện thoại</Text>
+      </View>
+      <View className="w-[80%] bg-white border opacity-80Nguy rounded-lg h-12 mb-5 flex-row items-center px-5">
         <TextInput
-          style={styles.inputText}
-          placeholder="Số điện thoại"
+          className="h-12 text-black ml-0 flex-1"
           placeholderTextColor="#003f5c"
           onChangeText={(text) => setPhone(text)}
         />
       </View>
-      <Text style={styles.errorText}>{phoneError}</Text>
-      <View style={styles.inputView}>
+      <View className="items-start w-full">
+        <Text className="font-bold text-black ml-10 text-base" >Mật khẩu</Text>
+      </View>
+      <View className="w-[80%] bg-white border opacity-80Nguy rounded-lg h-12 mb-5 flex-row items-center px-5">
         <TextInput
           secureTextEntry
-          style={styles.inputText}
-          placeholder="Mật khẩu"
+          className="h-12 text-black ml-0 flex-1"
           placeholderTextColor="#003f5c"
           onChangeText={(text) => setPassword(text)}
         />
       </View>
-      <Text style={styles.errorText}>{passwordError}</Text>
-      <Text style={styles.errorText}>{loginError}</Text>
+      <Text style={styles.errorText}>{passwordError}</Text>      
       <Text style={[styles.errorText, { color: 'green' }]}>{loginSuccess}</Text>
-      <TouchableOpacity style={styles.loginBtn} onPress={handleRegister}>
+      <TouchableOpacity className="w-[80%] bg-blue-500 rounded-lg h-12 flex items-center justify-center mt-5 mb-5" onPress={handleRegister}>
         <Text style={styles.loginText}>Đăng kí</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={navigateToLogin}>
@@ -139,7 +146,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   signupText: {
-    color: "white",
+    color: "black",
     marginTop: 5,
   },
   inputText: {
