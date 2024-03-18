@@ -10,9 +10,6 @@ import {
   faLaptopCode,  
 } from '@fortawesome/free-solid-svg-icons';
 
-function handleSearch() {
-  console.log('search');
-}
 
 const Search = ({navigation}) => {
   return (
