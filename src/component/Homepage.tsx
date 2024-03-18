@@ -184,7 +184,11 @@ const HomePage = ({navigation}) => {
               }}
             />
           ) : (
+            <TouchableOpacity  onPress={() => {
+              navigation.navigate('Login');
+            }}>
             <Text className='font-bold'>Đăng nhập</Text>
+            </TouchableOpacity>
           )}
         </View>
       </View>

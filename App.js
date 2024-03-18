@@ -1,4 +1,4 @@
-
+import { TouchableOpacity, Text } from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
@@ -20,7 +20,8 @@ import ForgetPassword from './src/component/Account/ForgetPassword';
 import ChangePassword from './src/component/Account/ChangePassword';
 
 import React from 'react';
-
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createStackNavigator();
@@ -115,7 +116,27 @@ const BottomTabs = ()  => {
   );
 };
 
-const App = () => {    
+const App = () => {  
+  // const [userID, setUserID] = useState('');
+  // const getData = async () => {
+  //   try {      
+  //     const userID = await AsyncStorage.getItem('UserId');
+  //     setUserID(userID);      
+  //     if (userID !== null ) {
+  //       // Dữ liệu đã tồn tại
+  //       console.log('User id:', userID);
+  //     } else {
+  //       // Không tìm thấy dữ liệu
+  //       console.log('Không tìm thấy dữ liệu.');
+  //     }
+  //   } catch (e) {
+  //     // Xử lý lỗi nếu có
+  //     console.log('Lỗi khi lấy dữ liệu:', e);
+  //   }
+  // }
+  useEffect(() => {
+    // getData();
+  }, []);
   return (
     <NavigationContainer>
       <Stack.Navigator

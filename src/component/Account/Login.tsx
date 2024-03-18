@@ -51,8 +51,8 @@ const Login = () => {
       console.log("Login successful", response.data);
 
       setLoginSuccess("Đăng nhập thành công!");
-      await AsyncStorage.setItem('username', username);
-      await AsyncStorage.setItem('password', password);
+      // await AsyncStorage.setItem('username', username);
+      // await AsyncStorage.setItem('password', password);
       await AsyncStorage.setItem('accessToken', response.data.accessToken);
       await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
       const Id = response.data.UserProfileDto.Id;

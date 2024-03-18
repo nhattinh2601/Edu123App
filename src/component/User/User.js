@@ -31,6 +31,8 @@ export default function User (){
   }
 
   const handleLogout = async () => {
+    // await AsyncStorage.removeItem('username');
+    // await AsyncStorage.removeItem('password');
     await AsyncStorage.removeItem('accessToken');
     await AsyncStorage.removeItem('refreshToken');
     await AsyncStorage.removeItem('UserId');
