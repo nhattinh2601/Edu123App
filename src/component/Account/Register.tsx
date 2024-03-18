@@ -72,7 +72,7 @@ const Register = () => {
       <View className="items-start w-full">
         <Text className="font-bold text-black ml-10 text-base" >Họ và tên</Text>
       </View>
-      <View className="w-[80%] bg-white border opacity-80Nguy rounded-lg h-12 mb-5 flex-row items-center px-5">
+      <View className="w-[80%] bg-white border border-gray-400 opacity-80 rounded-md h-12 mb-5 flex-row items-center px-5">
         <TextInput
          className="h-12 text-black ml-0 flex-1"
          placeholderTextColor="#003f5c"
@@ -82,7 +82,7 @@ const Register = () => {
       <View className="items-start w-full">
         <Text className="font-bold text-black ml-10 text-base" >Email</Text>
       </View>
-      <View className="w-[80%] bg-white border opacity-80Nguy rounded-lg h-12 mb-5 flex-row items-center px-5">
+      <View className="w-[80%] bg-white border opacity-80 rounded-lg h-12 mb-5 flex-row items-center px-5">
         <TextInput
           className="h-12 text-black ml-0 flex-1"
           placeholderTextColor="#003f5c"
@@ -92,7 +92,7 @@ const Register = () => {
       <View className="items-start w-full">
         <Text className="font-bold text-black ml-10 text-base" >Số điện thoại</Text>
       </View>
-      <View className="w-[80%] bg-white border opacity-80Nguy rounded-lg h-12 mb-5 flex-row items-center px-5">
+      <View className="w-[80%] bg-white border opacity-80 rounded-lg h-12 mb-5 flex-row items-center px-5">
         <TextInput
           className="h-12 text-black ml-0 flex-1"
           placeholderTextColor="#003f5c"

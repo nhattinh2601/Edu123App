@@ -1,5 +1,6 @@
+import Ionic from 'react-native-vector-icons/Ionicons';
 import React, {useRef, useState, useEffect} from 'react';
-import {LazyLoadImage} from 'react-lazy-load-image-component';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   StyleSheet,
   Text,
@@ -45,6 +46,7 @@ const HomePage = ({navigation}) => {
   const [topNewCourses, setTopNewCourses] = useState([]);
   const [topSoldCourses, settopSoldCourses] = useState([]);
   const [topRatingCourses, settopRatingCourses] = useState([]);
+  const [userId, setUserId] = useState();
 
   const WIDTH = Dimensions.get('screen').width;
   const ITEM_WIDTH = WIDTH * 0.45;
@@ -55,37 +57,45 @@ const HomePage = ({navigation}) => {
   const fetchTopSold = async () => {
     try {
       setIsLoading(true);
-      const startTime = performance.now();
-      const response = await axiosClient.get(
-        '/courses/get4CourseSoldRelateInfo',
-      );
-      const endTime = performance.now();
-
-      const elapsedTime = endTime - startTime;
-      settopSoldCourses(response.data);
-      console.log('loading top sold course finish');
-      console.log('top sold: ', elapsedTime, 'milliseconds');
-      setIsLoading(false);
+      const cachedData = await AsyncStorage.getItem('topSoldCourses');
+      if (cachedData) {
+        settopSoldCourses(JSON.parse(cachedData));
+        setIsLoading(false);
+      } else {
+        const response = await axiosClient.get(
+          '/courses/get4CourseSoldRelateInfo',
+        );
+        settopSoldCourses(response.data);
+        await AsyncStorage.setItem(
+          'topSoldCourses',
+          JSON.stringify(response.data),
+        );
+        setIsLoading(false);
+      }
     } catch (error) {
       console.error('Error fetching top sold courses:', error);
+      setIsLoading(false);
     }
   };
 
   const fetchTopRating = async () => {
     try {
       setIsLoading(true);
-      const startTime = performance.now();
-
-      const response = await axiosClient.get(
-        '/courses/get4CourseRatingRelateInfo',
-      );
-      const endTime = performance.now();
-
-      const elapsedTime = endTime - startTime;
-      settopRatingCourses(response.data);
-      console.log('loading top rating course finish');
-      console.log('top rating: ', elapsedTime, 'milliseconds');
-      setIsLoading(false);
+      const cachedData = await AsyncStorage.getItem('topRatingCourses');
+      if (cachedData) {
+        settopRatingCourses(JSON.parse(cachedData));
+        setIsLoading(false);
+      } else {
+        const response = await axiosClient.get(
+          '/courses/get4CourseRatingRelateInfo',
+        );
+        settopRatingCourses(response.data);
+        await AsyncStorage.setItem(
+          'topRatingCourses',
+          JSON.stringify(response.data),
+        );
+        setIsLoading(false);
+      }
     } catch (error) {
       console.error('Error fetching top rating courses:', error);
     }
@@ -94,24 +104,52 @@ const HomePage = ({navigation}) => {
   const fetchTopNewCourses = async () => {
     try {
       setIsLoading(true);
-      const startTime = performance.now();
-
-      const response = await axiosClient.get(
-        '/courses/get4CourseNewRelateInfo',
-      );
-      const endTime = performance.now();
-
-      const elapsedTime = endTime - startTime;
-      setTopNewCourses(response.data);
-      console.log('loading top new course finish');
-      console.log('new course: ', elapsedTime, 'milliseconds');
-      setIsLoading(false);
+      const cachedData = await AsyncStorage.getItem('topNewCourses');
+      if (cachedData) {
+        setTopNewCourses(JSON.parse(cachedData));
+        setIsLoading(false);
+      } else {
+        const response = await axiosClient.get(
+          '/courses/get4CourseNewRelateInfo',
+        );
+        setTopNewCourses(response.data);
+        await AsyncStorage.setItem(
+          'topNewCourses',
+          JSON.stringify(response.data),
+        );
+        setIsLoading(false);
+      }
     } catch (error) {
       console.error('Error fetching top new courses:', error);
     }
   };
 
+  const deleteCatchData = async () => {
+    await AsyncStorage.removeItem('topSoldCourses');
+    await AsyncStorage.removeItem('topRatingCourses');
+    await AsyncStorage.removeItem('topNewCourses');
+  };
+
+  const getUserId = async () => {
+    try {
+      const userID = await AsyncStorage.getItem('UserId');
+      setUserId(userID);
+      if (userID !== null) {
+        // Dữ liệu đã tồn tại
+        console.log('User id:', userID);
+      } else {
+        // Không tìm thấy dữ liệu
+        console.log('Không tìm thấy dữ liệu.');
+      }
+    } catch (e) {
+      // Xử lý lỗi nếu có
+      console.log('Lỗi khi lấy dữ liệu:', e);
+    }
+  };
+
   useEffect(() => {
+    // deleteCatchData();
+    getUserId();
     fetchTopSold();
     fetchTopRating();
     fetchTopNewCourses();
@@ -134,6 +172,22 @@ const HomePage = ({navigation}) => {
 
   return (
     <View className="flex flex-col justify-center items-center">
+      {/* tabheader */}
+      <View className="justify-center bg-white h-14 w-full">
+        <View className="mr-3 ml-3 p-0 items-end justify-end">
+          {userId ? (
+            <Ionic
+              name="cart-outline"
+              size={36}
+              onPress={() => {
+                navigation.navigate('Cart');
+              }}
+            />
+          ) : (
+            <Text className='font-bold'>Đăng nhập</Text>
+          )}
+        </View>
+      </View>
       <ScrollView className="w-full h-[94%] ">
         <View
           className="w-full  bg-green-200 ml-2 mr-2  mt-0 mb-0 flex flex-row justify-center items-center"

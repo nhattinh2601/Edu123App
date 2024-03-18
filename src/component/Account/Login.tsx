@@ -11,6 +11,8 @@ import {
 import axiosClient from "../../api/axiosClient";
 import { useNavigation } from '@react-navigation/native'; 
 import logo from "../../image/logo.png";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const {width, height} = Dimensions.get('window');
 
@@ -49,6 +51,13 @@ const Login = () => {
       console.log("Login successful", response.data);
 
       setLoginSuccess("Đăng nhập thành công!");
+      await AsyncStorage.setItem('username', username);
+      await AsyncStorage.setItem('password', password);
+      await AsyncStorage.setItem('accessToken', response.data.accessToken);
+      await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
+      const Id = response.data.UserProfileDto.Id;
+      await AsyncStorage.setItem('UserId', Id.toString());
+      navigation.navigate('User');
     } catch (error) {
       setLoginError("Đăng nhập thất bại!");
     }

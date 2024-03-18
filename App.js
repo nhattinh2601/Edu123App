@@ -1,3 +1,4 @@
+
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
@@ -16,13 +17,16 @@ import CategoryDetails from './src/component/Category/CategoryDetails';
 import Login from './src/component/Account/Login';
 import Register from './src/component/Account/Register';
 import ForgetPassword from './src/component/Account/ForgetPassword';
+import ChangePassword from './src/component/Account/ChangePassword';
+
 import React from 'react';
 
 
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-const BottomTabs = () => {
+const BottomTabs = ()  => {
+  
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -78,6 +82,7 @@ const BottomTabs = () => {
         component={HomePage}
         options={({navigation}) => ({
           headerTitle: '',
+          headerShown: false,
           headerRight: () => (
             <Ionic
               name="cart-outline"
@@ -110,7 +115,7 @@ const BottomTabs = () => {
   );
 };
 
-const App = () => {
+const App = () => {    
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -157,6 +162,7 @@ const App = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+        <Stack.Screen name="ChangePassword" component={ChangePassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );
