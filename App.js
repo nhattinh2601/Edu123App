@@ -108,6 +108,7 @@ const BottomTabs = ()  => {
         component={User}
         options={{
           title: 'Tài khoản', // Tiêu đề của tab
+          headerTitleAlign: 'center',
         }}
       />
     </Tab.Navigator>
