@@ -4,7 +4,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Image,  
+  Image,
   Modal
 } from "react-native";
 import axiosClient from "../../api/axiosClient";
@@ -25,9 +25,9 @@ const ChangePassword = () => {
   const [notification, setNotification] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [showOldPassword, setShowOldPassword] = useState(false); 
-  const [showNewPassword, setShowNewPassword] = useState(false); 
-  const [showReNewPassword, setShowReNewPassword] = useState(false); 
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showReNewPassword, setShowReNewPassword] = useState(false);
 
   const navigation = useNavigation();
 
@@ -60,24 +60,22 @@ const ChangePassword = () => {
         // navigation.navigate('User');
       } else {
         setNotification("Có lỗi xảy ra vui lòng thử lại sau!");
+        setIsModalVisible(true);
       }
     } catch (error) {
       setIsLoading(false);
-    if (error.response) {
-      // Nếu có lỗi từ phản hồi của API
       const errorMessage = error.response.data;
       setNotification(errorMessage);
-    } 
-    setIsModalVisible(true);
+      setIsModalVisible(true);
     }
   };
 
 
   return (
-    <View className="flex-1 justify-center items-center bg-white">      
+    <View className="flex-1 justify-center items-center bg-white">
       <View className="w-[75%] h-[15%]  items-center">
         <Image source={logo} resizeMode="contain" className="flex-1 items-center justify-center" />
-      </View>      
+      </View>
       <View className="items-start w-full">
         <Text className=" text-black ml-10 text-base" >Email</Text>
       </View>
@@ -99,12 +97,12 @@ const ChangePassword = () => {
           onChangeText={(text) => setOldPassword(text)}
         />
         <Ionic
-               name={showOldPassword ? 'eye-outline' : 'eye-off-outline'} 
-               size={20} 
-               color="black"
-              //  style={styles.icon} 
-               onPress={() => setShowOldPassword(!showOldPassword)}
-            />
+          name={showOldPassword ? 'eye-outline' : 'eye-off-outline'}
+          size={20}
+          color="black"
+          //  style={styles.icon} 
+          onPress={() => setShowOldPassword(!showOldPassword)}
+        />
       </View>
       <View className="items-start w-full">
         <Text className=" text-black ml-10 text-base" >Mật khẩu mới</Text>
@@ -117,12 +115,12 @@ const ChangePassword = () => {
           onChangeText={(text) => setNewPassword(text)}
         />
         <Ionic
-               name={showNewPassword ? 'eye-outline' : 'eye-off-outline'} 
-               size={20} 
-               color="black"
-              //  style={styles.icon} 
-               onPress={() => setShowNewPassword(!showNewPassword)}
-            />
+          name={showNewPassword ? 'eye-outline' : 'eye-off-outline'}
+          size={20}
+          color="black"
+          //  style={styles.icon} 
+          onPress={() => setShowNewPassword(!showNewPassword)}
+        />
       </View>
       <View className="items-start w-full">
         <Text className=" text-black ml-10 text-base" >Nhập lại mật khẩu mới</Text>
@@ -135,38 +133,38 @@ const ChangePassword = () => {
           onChangeText={(text) => setReNewPassword(text)}
         />
         <Ionic
-               name={showReNewPassword ? 'eye-outline' : 'eye-off-outline'} 
-               size={20} 
-               color="black"
-              //  style={styles.icon} 
-               onPress={() => setShowReNewPassword(!showReNewPassword)}
-            />
-      </View>      
+          name={showReNewPassword ? 'eye-outline' : 'eye-off-outline'}
+          size={20}
+          color="black"
+          //  style={styles.icon} 
+          onPress={() => setShowReNewPassword(!showReNewPassword)}
+        />
+      </View>
       <Modal visible={isModalVisible} transparent>
-        <View className="flex-1 items-center justify-center" style={{ backgroundColor:'#00000099'}}>
-        <View style={{
-          backgroundColor: '#ffffff',          
-          width: 300,
-          height: 150,
-          borderWidth: 1,
-          borderRadius: 5,
-          borderColor: '#000'
-        }}>
-          <View className="p-5">
-          <Text className="font-bold text-lg text-black">Thông báo</Text>
-          <Text className="text-base text-black">{notification}</Text>          
+        <View className="flex-1 items-center justify-center" style={{ backgroundColor: '#00000099' }}>
+          <View style={{
+            backgroundColor: '#ffffff',
+            width: 300,
+            height: 150,
+            borderWidth: 1,
+            borderRadius: 5,
+            borderColor: '#000'
+          }}>
+            <View className="p-5">
+              <Text className="font-bold text-lg text-black">Thông báo</Text>
+              <Text className="text-base text-black">{notification}</Text>
+            </View>
+            <TouchableOpacity className="items-end p-3" onPress={() => setIsModalVisible(false)}>
+              <Text className="font-bold text-green">Đồng Ý</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity className="items-end p-3" onPress={() => setIsModalVisible(false)}>
-            <Text className="font-bold text-green">Đồng Ý</Text>
-          </TouchableOpacity>
-        </View>
         </View>
       </Modal>
       <Spinner
         visible={isLoading}
         animation="fade"
-        textContent=""        
-        textStyle={{color: 'white', fontSize:15}}
+        textContent=""
+        textStyle={{ color: 'white', fontSize: 15 }}
       />
       <TouchableOpacity className="w-[80%] bg-blue-500 rounded-lg h-12 flex items-center justify-center mt-5 mb-5" onPress={handleChangePassword}>
         <Text className="text-white">Cập nhật</Text>

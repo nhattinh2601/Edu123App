@@ -159,9 +159,51 @@ const App = () => {
           })}
         />
         <Stack.Screen name="CategoryDetails" component={CategoryDetails} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+        <Stack.Screen name="Login" component={Login} options={({navigation}) => ({
+            headerTitle: 'Đăng nhập',
+            headerTitleAlign: 'center',
+            headerShown: true,
+            headerLeft: () => (
+              <Ionic
+                name="arrow-back"
+                size={24}
+                onPress={() => {
+                  navigation.goBack();
+                }}
+                style={{marginLeft: 15}}
+              />
+            ),
+          })} />
+        <Stack.Screen name="Register" component={Register} options={({navigation}) => ({
+            headerTitle: 'Đăng ký',
+            headerTitleAlign: 'center',
+            headerShown: true,
+            headerLeft: () => (
+              <Ionic
+                name="arrow-back"
+                size={24}
+                onPress={() => {
+                  navigation.goBack();
+                }}
+                style={{marginLeft: 15}}
+              />
+            ),
+          })}/>
+        <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={({navigation}) => ({
+            headerTitle: 'Quên mật khẩu',
+            headerTitleAlign: 'center',
+            headerShown: true,
+            headerLeft: () => (
+              <Ionic
+                name="arrow-back"
+                size={24}
+                onPress={() => {
+                  navigation.goBack();
+                }}
+                style={{marginLeft: 15}}
+              />
+            ),
+          })}/>
         <Stack.Screen name="ChangePassword" component={ChangePassword} options={({navigation}) => ({
             headerTitle: 'Đổi mật khẩu',
             headerTitleAlign: 'center',

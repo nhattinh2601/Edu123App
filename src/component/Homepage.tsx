@@ -136,10 +136,9 @@ const HomePage = ({navigation}) => {
       setUserId(userID);
       if (userID !== null) {
         // Dữ liệu đã tồn tại
-        console.log('User id:', userID);
-      } else {
-        // Không tìm thấy dữ liệu
-        console.log('Không tìm thấy dữ liệu.');
+        console.log('User id :', userID + ' đã đăng nhập');
+      } else {        
+        console.log('Chưa có tài khoản đăng nhập!');
       }
     } catch (e) {
       // Xử lý lỗi nếu có
@@ -154,6 +153,8 @@ const HomePage = ({navigation}) => {
     fetchTopRating();
     fetchTopNewCourses();
   }, []);
+
+  
 
   const renderItems: React.FC<{item: CarouselItems}> = ({item}) => {
     return (
@@ -187,7 +188,7 @@ const HomePage = ({navigation}) => {
             <TouchableOpacity  onPress={() => {
               navigation.navigate('Login');
             }}>
-            <Text className='font-bold'>Đăng nhập</Text>
+            <Text className='font-bold text-lg'>Đăng nhập</Text>
             </TouchableOpacity>
           )}
         </View>
