@@ -109,6 +109,22 @@ export default function User() {
 
         </TouchableOpacity>
 
+        <TouchableOpacity className='w-[60%] pt-5 ' onPress={() =>
+          navigation.navigate('ChangePassword', {
+            email: email,
+          })
+        }>
+          <View className='flex-row justify-between items-center w-full'>
+            <Text className='text-base font-semibold'>Đổi mật khẩu</Text>
+            <Ionic
+              name='chevron-forward-outline'
+              size={20}
+              color="black"
+            />
+          </View>
+
+        </TouchableOpacity>
+
         {/* logout */}
         <View className='items-center'>
           <TouchableOpacity

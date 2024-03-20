@@ -8,37 +8,42 @@ import {
   Modal
 } from "react-native";
 import axiosClient from "../../api/axiosClient";
-import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import logo from "../../image/logo.png";
 import Spinner from "react-native-loading-spinner-overlay";
 import Ionic from 'react-native-vector-icons/Ionicons';
 
 
-const ChangePassword = () => {
-
-
-
-  const [username, setUsername] = useState("");
+const ChangePassword = ({ route, navigation }) => {
+  const { email } = route.params;
   const [oldpassword, setOldPassword] = useState("");
   const [newpassword, setNewPassword] = useState("");
   const [renewpassword, setReNewPassword] = useState("");
   const [notification, setNotification] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalLogoutVisible, setIsModalLogoutVisible] = useState(false);
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showReNewPassword, setShowReNewPassword] = useState(false);
 
-  const navigation = useNavigation();
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem('accessToken');
+    await AsyncStorage.removeItem('refreshToken');
+    await AsyncStorage.removeItem('UserId');
+
+    setIsModalLogoutVisible(false);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Home' }, { name: 'User' }],
+    });
+    navigation.navigate('Login');
+  };
 
   const handleChangePassword = async () => {
     try {
 
-      if (!username.includes("@")) {
-        setNotification("Email không phù hợp định dạng!");
-        setIsModalVisible(true)
-        return;
-      } else if (oldpassword.length < 6 || newpassword.length < 6 || renewpassword.length < 6) {
+      if (oldpassword.length < 6 || newpassword.length < 6 || renewpassword.length < 6) {
         setNotification("Mật khẩu phải có ít nhất 6 ký tự");
         setIsModalVisible(true)
         return;
@@ -49,15 +54,14 @@ const ChangePassword = () => {
       }
       setIsLoading(true);
       const response = await axiosClient.post("/auth/change-password", {
-        email: username,
+        email: email,
         oldPassword: oldpassword,
         newPassword: newpassword,
       });
       setIsLoading(false);
       if (response.status === 200) {
-        setNotification("Cập nhật thành công!");
-        setIsModalVisible(true);
-        // navigation.navigate('User');
+        setNotification("Cập nhật thành công, vui lòng đăng nhập lại!");
+        setIsModalLogoutVisible(true);
       } else {
         setNotification("Có lỗi xảy ra vui lòng thử lại sau!");
         setIsModalVisible(true);
@@ -76,16 +80,8 @@ const ChangePassword = () => {
       <View className="w-[75%] h-[15%]  items-center">
         <Image source={logo} resizeMode="contain" className="flex-1 items-center justify-center" />
       </View>
-      <View className="items-start w-full">
-        <Text className=" text-black ml-10 text-base" >Email</Text>
-      </View>
-      <View className="w-[80%] bg-white border border-gray-400 rounded-sm h-10 mb-5 flex-row items-center px-5">
-        <TextInput
-          className="h-12 text-black ml-0 flex-1"
-          placeholderTextColor="#003f5c"
-          onChangeText={(text) => setUsername(text)}
-        />
-      </View>
+
+
       <View className="items-start w-full">
         <Text className=" text-black ml-10 text-base" >Mật khẩu cũ</Text>
       </View>
@@ -155,6 +151,26 @@ const ChangePassword = () => {
               <Text className="text-base text-black">{notification}</Text>
             </View>
             <TouchableOpacity className="items-end p-3" onPress={() => setIsModalVisible(false)}>
+              <Text className="font-bold text-green">Đồng Ý</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      <Modal visible={isModalLogoutVisible} transparent>
+        <View className="flex-1 items-center justify-center" style={{ backgroundColor: '#00000099' }}>
+          <View style={{
+            backgroundColor: '#ffffff',
+            width: 300,
+            height: 150,
+            borderWidth: 1,
+            borderRadius: 5,
+            borderColor: '#000'
+          }}>
+            <View className="p-5">
+              <Text className="font-bold text-lg text-black">Thông báo</Text>
+              <Text className="text-base text-black">{notification}</Text>
+            </View>
+            <TouchableOpacity className="items-end p-3" onPress={() => handleLogout()}>
               <Text className="font-bold text-green">Đồng Ý</Text>
             </TouchableOpacity>
           </View>
