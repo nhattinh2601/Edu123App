@@ -1,5 +1,5 @@
 
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -31,8 +31,27 @@ export default function User() {
     }
   }
 
-  const handleLogout = async () => {
+  const showWarningLogout = () => {
+    Alert.alert(
+        'Đăng xuất',
+        'Bạn thật sự muốn đăng xuất ?', [        
+        {
+          text: 'Đóng',
+          style: 'cancel',         
+        },
+        {
+          text: 'Đăng xuất',
+          onPress: () => handleLogout(),
+          style: 'destructive'
+        },
+      ],
+        {
+          cancelable: true,
+          onDismiss: () => console.warn('Alert dismissed!')
+        })
+  }
 
+  const handleLogout = async () => {
     await AsyncStorage.removeItem('accessToken');
     await AsyncStorage.removeItem('refreshToken');
     await AsyncStorage.removeItem('UserId');
@@ -94,7 +113,7 @@ export default function User() {
         <View className='items-center'>
           <TouchableOpacity
             className="bg-white p-5 rounded-md flex-row "
-            onPress={handleLogout}>
+            onPress={showWarningLogout}>
             <Ionic
               name='exit-outline'
               size={24}

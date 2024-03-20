@@ -534,7 +534,7 @@ const HomePage = ({navigation}) => {
         <Modal visible={isLoading} transparent>
           <View className="w-full h-full bg-white">
             <View className="flex-1 items-center justify-center">
-              <View className="w-[80%] h-[20%]  items-center bg-slate-400">
+              <View className="w-[80%] h-[20%]  items-center">
                 <Image
                   source={logo}
                   resizeMode="contain"
