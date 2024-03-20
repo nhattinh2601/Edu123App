@@ -24,8 +24,7 @@ export default function User() {
         setIsLoading(false);
         setEmail(response.data.email);
         setFullname(response.data.fullname);
-        setAvatar(response.data.avatar);
-        console.log(response.data);
+        setAvatar(response.data.avatar);        
       }
     } catch (e) {
       console.log('Lỗi khi lấy dữ liệu hoặc không có thông tin người dùng!', e);

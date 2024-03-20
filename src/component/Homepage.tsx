@@ -9,12 +9,14 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
-  ActivityIndicator,
+  Modal,
   Dimensions,
   Animated,
+  ActivityIndicator,
 } from 'react-native';
 import {Rating} from 'react-native-ratings';
 import axiosClient from '../api/axiosClient';
+import logo from '../image/logo.png';
 
 const {width, height} = Dimensions.get('window');
 const carouseItem = require('../image/carousel.json');
@@ -52,7 +54,7 @@ const HomePage = ({navigation}) => {
   const ITEM_WIDTH = WIDTH * 0.45;
   const scrollX = useRef(new Animated.Value(0)).current;
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchTopSold = async () => {
     try {
@@ -137,7 +139,7 @@ const HomePage = ({navigation}) => {
       if (userID !== null) {
         // Dữ liệu đã tồn tại
         console.log('User id :', userID + ' đã đăng nhập');
-      } else {        
+      } else {
         console.log('Chưa có tài khoản đăng nhập!');
       }
     } catch (e) {
@@ -153,8 +155,6 @@ const HomePage = ({navigation}) => {
     fetchTopRating();
     fetchTopNewCourses();
   }, []);
-
-  
 
   const renderItems: React.FC<{item: CarouselItems}> = ({item}) => {
     return (
@@ -185,10 +185,11 @@ const HomePage = ({navigation}) => {
               }}
             />
           ) : (
-            <TouchableOpacity  onPress={() => {
-              navigation.navigate('Login');
-            }}>
-            <Text className='font-bold text-lg'>Đăng nhập</Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Login');
+              }}>
+              <Text className="font-bold text-lg">Đăng nhập</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -230,7 +231,7 @@ const HomePage = ({navigation}) => {
         <View
           className="w-full  m-0 p-0 border-0 flex flex-row bg-slate-300 "
           style={{height: 0.25 * height}}>
-          {isLoading && (
+          {/* {isLoading && (
             <View
               style={{
                 position: 'absolute',
@@ -243,7 +244,7 @@ const HomePage = ({navigation}) => {
               }}>
               <ActivityIndicator size="large" color="#ffffff" />
             </View>
-          )}
+          )} */}
           <FlatList
             data={topSoldCourses}
             horizontal
@@ -335,7 +336,7 @@ const HomePage = ({navigation}) => {
         <View
           className="w-full  m-0 p-0 border-0 flex flex-row bg-slate-300 "
           style={{height: 0.25 * height}}>
-          {isLoading && (
+          {/* {isLoading && (
             <View
               style={{
                 position: 'absolute',
@@ -348,7 +349,7 @@ const HomePage = ({navigation}) => {
               }}>
               <ActivityIndicator size="large" color="#ffffff" />
             </View>
-          )}
+          )} */}
           <FlatList
             data={topRatingCourses}
             horizontal
@@ -437,7 +438,7 @@ const HomePage = ({navigation}) => {
         <View
           className="w-full  m-0 p-0 border-0 flex flex-row bg-slate-300 "
           style={{height: 0.25 * height}}>
-          {isLoading && (
+          {/* {isLoading && (
             <View
               style={{
                 position: 'absolute',
@@ -450,7 +451,7 @@ const HomePage = ({navigation}) => {
               }}>
               <ActivityIndicator size="large" color="#ffffff" />
             </View>
-          )}
+          )} */}
           <FlatList
             data={topNewCourses}
             horizontal
@@ -535,6 +536,20 @@ const HomePage = ({navigation}) => {
             }}
           />
         </View>
+        <Modal visible={isLoading} transparent>
+          <View className="w-full h-full bg-white">
+            <View className="flex-1 items-center justify-center">
+              <View className="w-[80%] h-[20%]  items-center bg-slate-400">
+                <Image
+                  source={logo}
+                  resizeMode="contain"
+                  className="flex-1 items-center justify-center"
+                />
+              </View>
+              <ActivityIndicator size="large" color="grey" />
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     </View>
   );

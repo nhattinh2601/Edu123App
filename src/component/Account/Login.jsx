@@ -4,9 +4,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Image,
-  Dimensions,
   Modal,
 } from 'react-native';
 import axiosClient from '../../api/axiosClient';
