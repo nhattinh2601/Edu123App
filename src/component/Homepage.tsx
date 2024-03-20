@@ -49,6 +49,7 @@ const HomePage = ({navigation}) => {
   const [topSoldCourses, settopSoldCourses] = useState([]);
   const [topRatingCourses, settopRatingCourses] = useState([]);
   const [userId, setUserId] = useState();
+  const [cartCount, setCartCount] = useState(0);
 
   const WIDTH = Dimensions.get('screen').width;
   const ITEM_WIDTH = WIDTH * 0.45;
@@ -156,6 +157,12 @@ const HomePage = ({navigation}) => {
     fetchTopNewCourses();
   }, []);
 
+  const increaseCartCount = () => {
+    setCartCount(cartCount + 1);
+    // console.log(cartCount);// chỗ này nó sẽ ko hiện thị được vì phải hêt hàm thì component mới cập nhật được 
+    console.log("function increase cartCount");
+  };
+
   const renderItems: React.FC<{item: CarouselItems}> = ({item}) => {
     return (
       <TouchableOpacity
@@ -175,15 +182,44 @@ const HomePage = ({navigation}) => {
     <View className="flex flex-col justify-center items-center">
       {/* tabheader */}
       <View className="justify-center bg-white h-14 w-full">
-        <View className="mr-3 ml-3 p-0 items-end justify-end">
+        <View className="mr-3 ml-3 p-0 items-end justify-end">          
           {userId ? (
-            <Ionic
-              name="cart-outline"
-              size={36}
-              onPress={() => {
+            <View style={{alignItems: 'center',  justifyContent:'center'}}>
+              <TouchableOpacity onPress={() => {
                 navigation.navigate('Cart');
-              }}
-            />
+              }}>
+              <View style={{flex:1, alignItems: 'center',  justifyContent:'center'}}>
+              <Ionic name="cart-outline" size={36} />  
+              {cartCount >= 0 ? (
+                <View
+                  style={{                
+                    position: 'absolute',    
+                    backgroundColor: 'red',
+                    width: 16,
+                    height: 16,
+                    borderRadius: 15 / 2,
+                    right: 8,
+                    top: +10,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'blue',
+                      fontWeight: 'bold',
+                      fontSize: 10,
+                    }}>
+                    {cartCount}
+                  </Text>
+                </View>
+              ) : null}
+              </View>
+              </TouchableOpacity>
+              
+              
+            </View>
           ) : (
             <TouchableOpacity
               onPress={() => {
@@ -193,7 +229,8 @@ const HomePage = ({navigation}) => {
             </TouchableOpacity>
           )}
         </View>
-      </View>
+      </View>           
+
       <ScrollView className="w-full h-[94%] ">
         <View
           className="w-full  bg-green-200 ml-2 mr-2  mt-0 mb-0 flex flex-row justify-center items-center"
@@ -231,20 +268,6 @@ const HomePage = ({navigation}) => {
         <View
           className="w-full  m-0 p-0 border-0 flex flex-row bg-slate-300 "
           style={{height: 0.25 * height}}>
-          {/* {isLoading && (
-            <View
-              style={{
-                position: 'absolute',
-                right: 10,
-                top: '60%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 20,
-                zIndex: 1,
-              }}>
-              <ActivityIndicator size="large" color="#ffffff" />
-            </View>
-          )} */}
           <FlatList
             data={topSoldCourses}
             horizontal
@@ -336,20 +359,6 @@ const HomePage = ({navigation}) => {
         <View
           className="w-full  m-0 p-0 border-0 flex flex-row bg-slate-300 "
           style={{height: 0.25 * height}}>
-          {/* {isLoading && (
-            <View
-              style={{
-                position: 'absolute',
-                right: 10,
-                top: '60%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 20,
-                zIndex: 1,
-              }}>
-              <ActivityIndicator size="large" color="#ffffff" />
-            </View>
-          )} */}
           <FlatList
             data={topRatingCourses}
             horizontal
@@ -438,20 +447,6 @@ const HomePage = ({navigation}) => {
         <View
           className="w-full  m-0 p-0 border-0 flex flex-row bg-slate-300 "
           style={{height: 0.25 * height}}>
-          {/* {isLoading && (
-            <View
-              style={{
-                position: 'absolute',
-                right: 10,
-                top: '60%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 20,
-                zIndex: 1,
-              }}>
-              <ActivityIndicator size="large" color="#ffffff" />
-            </View>
-          )} */}
           <FlatList
             data={topNewCourses}
             horizontal
