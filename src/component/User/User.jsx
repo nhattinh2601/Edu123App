@@ -13,6 +13,7 @@ export default function User() {
   const [email, setEmail] = useState('');
   const [avatar, setAvatar] = useState('');
   const [fullname, setFullname] = useState('');
+  const [phone, setPhone] = useState('');
   const [userID, setUserID] = useState('');
   const getData = async () => {
     try {
@@ -24,7 +25,8 @@ export default function User() {
         setIsLoading(false);
         setEmail(response.data.email);
         setFullname(response.data.fullname);
-        setAvatar(response.data.avatar);        
+        setAvatar(response.data.avatar);  
+        setPhone(response.data.phone);      
       }
     } catch (e) {
       console.log('Lỗi khi lấy dữ liệu hoặc không có thông tin người dùng!', e);
@@ -94,8 +96,10 @@ export default function User() {
 
 
         <TouchableOpacity className='w-[60%] pt-5 ' onPress={() =>
-          navigation.navigate('CategoryDetails', {
-            categoryId: 25,
+          navigation.navigate('UpdateInfo', {
+            fullname: fullname,
+            phone: phone,
+            avatar: avatar
           })
         }>
           <View className='flex-row justify-between items-center w-full'>

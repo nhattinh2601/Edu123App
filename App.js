@@ -17,15 +17,13 @@ import Login from './src/component/Account/Login';
 import Register from './src/component/Account/Register';
 import ForgetPassword from './src/component/Account/ForgetPassword';
 import ChangePassword from './src/component/Account/ChangePassword';
+import UpdateInfo from './src/component/Account/UpdateInfo';
 
 import React from 'react';
 
-
-
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-const BottomTabs = ()  => {
-  
+const BottomTabs = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -115,8 +113,7 @@ const BottomTabs = ()  => {
   );
 };
 
-const App = () => {  
-  
+const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -160,7 +157,10 @@ const App = () => {
           })}
         />
         <Stack.Screen name="CategoryDetails" component={CategoryDetails} />
-        <Stack.Screen name="Login" component={Login} options={({navigation}) => ({
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={({navigation}) => ({
             headerTitle: 'Đăng nhập',
             headerTitleAlign: 'center',
             headerShown: true,
@@ -174,8 +174,12 @@ const App = () => {
                 style={{marginLeft: 15}}
               />
             ),
-          })} />
-        <Stack.Screen name="Register" component={Register} options={({navigation}) => ({
+          })}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={({navigation}) => ({
             headerTitle: 'Đăng ký',
             headerTitleAlign: 'center',
             headerShown: true,
@@ -189,8 +193,12 @@ const App = () => {
                 style={{marginLeft: 15}}
               />
             ),
-          })}/>
-        <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={({navigation}) => ({
+          })}
+        />
+        <Stack.Screen
+          name="ForgetPassword"
+          component={ForgetPassword}
+          options={({navigation}) => ({
             headerTitle: 'Quên mật khẩu',
             headerTitleAlign: 'center',
             headerShown: true,
@@ -204,8 +212,12 @@ const App = () => {
                 style={{marginLeft: 15}}
               />
             ),
-          })}/>
-        <Stack.Screen name="ChangePassword" component={ChangePassword} options={({navigation}) => ({
+          })}
+        />
+        <Stack.Screen
+          name="ChangePassword"
+          component={ChangePassword}
+          options={({navigation}) => ({
             headerTitle: 'Đổi mật khẩu',
             headerTitleAlign: 'center',
             headerShown: true,
@@ -219,7 +231,27 @@ const App = () => {
                 style={{marginLeft: 15}}
               />
             ),
-          })}/>
+          })}
+        />
+        <Stack.Screen
+          name="UpdateInfo"
+          component={UpdateInfo}
+          options={({navigation}) => ({
+            headerTitle: 'Cập nhật thông tin',
+            headerTitleAlign: 'center',
+            headerShown: true,
+            headerLeft: () => (
+              <Ionic
+                name="arrow-back"
+                size={24}
+                onPress={() => {
+                  navigation.goBack();
+                }}
+                style={{marginLeft: 15}}
+              />
+            ),
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
