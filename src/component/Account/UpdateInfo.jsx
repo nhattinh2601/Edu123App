@@ -4,6 +4,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import axiosClient from '../../api/axiosClient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionic from 'react-native-vector-icons/Ionicons';
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 
 const HEIGHT = 220;
 const OVERDRAG = 20;
@@ -26,11 +27,15 @@ const UpdateInfo = ({ route, navigation }) => {
         const [isModalVisible, setIsModalVisible] = useState(false);
         const [isOpen, setOpen] = useState(false);
 
-
+        const openCameraLib = async () => {
+                console.log("Press");
+                const result = await launchCamera();
+                console.log("Result=>>", result);
+        }
 
         const toggleSheet = () => {
                 setOpen(!isOpen);
-              };
+        };
 
         const getData = async () => {
                 try {
@@ -57,7 +62,7 @@ const UpdateInfo = ({ route, navigation }) => {
                         const response = await axiosClient.patch('/users/' + userID,
                                 fieldsToUpdate
                         );
-                        console.log(response.data);
+                        // console.log(response.data);
                         setIsLoading(false);
                         if (response.status === 200) {
                                 setNotification("Cập nhật thành công!");
@@ -111,7 +116,7 @@ const UpdateInfo = ({ route, navigation }) => {
                                                 name="camera-outline"
                                                 size={24}
                                                 onPress={() => {
-                                                       setOpen(!isOpen);
+                                                        setOpen(!isOpen);
                                                 }}
                                         />
                                 </View>
@@ -168,13 +173,35 @@ const UpdateInfo = ({ route, navigation }) => {
                         textStyle={{ color: 'white', fontSize: 15 }}
                 />
                 {isOpen && (
-          <>
-            <AninatedPressable style={styles.backdrop} onPress={toggleSheet}  />
-            <View style={styles.sheet}>
-              <Text>Bottoms Sheet</Text>
-            </View>
-          </>
-        )}
+                        <>
+                                <AninatedPressable style={styles.backdrop} onPress={toggleSheet} />
+                                <View style={styles.sheet}>
+                                        <TouchableOpacity onPress={openCameraLib}>
+                                                <View className="item-center justify-center flex-row">
+                                                <Text className="font-semibold text-black text-base">Mở Camera</Text>
+                                                </View>
+                                        </TouchableOpacity>
+                                        <View className="border-b border-black w-full mt-1 mb-1 opacity-20" />
+                                        <TouchableOpacity >
+                                                <View className="item-center justify-center flex-row">
+                                                <Text className="font-semibold text-black text-base">Mở Thư viện</Text>
+                                                </View>
+                                        </TouchableOpacity>
+                                        <View className="border-b border-black w-full mt-1 mb-1 opacity-20" />
+                                        <TouchableOpacity >
+                                                <View className="item-center justify-center flex-row">
+                                                <Text className="font-semibold text-black text-base">Xem ảnh</Text>
+                                                </View>
+                                        </TouchableOpacity>
+                                        <View className="border-b border-black w-full mt-1 mb-1 opacity-20" />
+                                        <TouchableOpacity onPress={toggleSheet}>
+                                                <View className="item-center justify-center flex-row">
+                                                <Text className="font-semibold text-black text-base">Hủy</Text>
+                                                </View>
+                                        </TouchableOpacity>                                        
+                                </View>
+                        </>
+                )}
                 <TouchableOpacity onPress={handleUpdate}
                         className="w-[30%] bg-blue-500 rounded-lg h-12 flex items-center justify-center mt-5 mb-5"
                 >
@@ -185,25 +212,25 @@ const UpdateInfo = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
         container: {
-          flex: 1,
-        //   backgroundColor: BACKGROUND_COLOR,
+                flex: 1,
+                //   backgroundColor: BACKGROUND_COLOR,
         },
         sheet: {
-          backgroundColor: "white",
-          padding: 16,
-          height: HEIGHT,
-          width: "100%",
-          position: "absolute",
-          bottom: -OVERDRAG * 1.1,
-          borderTopRightRadius: 20,
-          borderTopLeftRadius: 20,
-          zIndex: 1,
+                backgroundColor: "white",
+                padding: 16,
+                height: HEIGHT*0.75,
+                width: "100%",
+                position: "absolute",
+                bottom: -OVERDRAG * 1.1,
+                borderTopRightRadius: 20,
+                borderTopLeftRadius: 20,
+                zIndex: 1,
         },
         backdrop: {
-          ...StyleSheet.absoluteFillObject,
-          backgroundColor: BACKDROP_COLOR,
-          zIndex: 1,
+                ...StyleSheet.absoluteFillObject,
+                backgroundColor: BACKDROP_COLOR,
+                zIndex: 1,
         },
-      });
+});
 
 export default UpdateInfo;
