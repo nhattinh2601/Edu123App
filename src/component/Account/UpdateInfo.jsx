@@ -1,8 +1,15 @@
 import { useState, useEffect } from "react";
-import { Text, View, Image, TextInput, TouchableOpacity, Modal } from "react-native"
+import { Text, View, Image, TextInput, TouchableOpacity, Modal, Alert, StyleSheet, Pressable, Animated, } from "react-native"
 import Spinner from 'react-native-loading-spinner-overlay';
 import axiosClient from '../../api/axiosClient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Ionic from 'react-native-vector-icons/Ionicons';
+
+const HEIGHT = 220;
+const OVERDRAG = 20;
+const BACKDROP_COLOR = "rgba(0, 0, 0, 0.3)";
+
+const AninatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const UpdateInfo = ({ route, navigation }) => {
         const { fullname } = route.params;
@@ -17,6 +24,13 @@ const UpdateInfo = ({ route, navigation }) => {
         const [isLoading, setIsLoading] = useState(false);
         const [notification, setNotification] = useState('');
         const [isModalVisible, setIsModalVisible] = useState(false);
+        const [isOpen, setOpen] = useState(false);
+
+
+
+        const toggleSheet = () => {
+                setOpen(!isOpen);
+              };
 
         const getData = async () => {
                 try {
@@ -32,22 +46,22 @@ const UpdateInfo = ({ route, navigation }) => {
                 const fieldsToUpdate = {
                         fullname: trimmedName,
                         phone: phoneUpdate,
-                      };
+                };
                 try {
                         if (!fullnameUpdate) {
                                 setNotification("Tên không được để trống!");
                                 setIsModalVisible(true);
                         }
                         setIsLoading(true);
-                        
-                        const response = await axiosClient.patch('/users/' + userID, 
+
+                        const response = await axiosClient.patch('/users/' + userID,
                                 fieldsToUpdate
                         );
                         console.log(response.data);
                         setIsLoading(false);
                         if (response.status === 200) {
                                 setNotification("Cập nhật thành công!");
-                                setIsModalVisible(true);                                
+                                setIsModalVisible(true);
                         }
                 } catch (error) {
                         setIsLoading(false);
@@ -80,6 +94,27 @@ const UpdateInfo = ({ route, navigation }) => {
                                         source={{ uri: avatarUpdate }}
                                         style={{ width: '100%', height: '100%', borderRadius: 100 }}
                                 />
+                                <View
+                                        style={{
+                                                position: 'absolute', // Đặt icon ở vị trí tuyệt đối để nó có thể "nổi" lên trên hình ảnh
+                                                bottom: 0, // Đẩy icon xuống dưới cùng
+                                                right: 0, // Đẩy icon sang phải
+                                                width: 30, // Kích thước của icon, bạn có thể điều chỉnh cho phù hợp
+                                                height: 30, // Kích thước của icon
+                                                justifyContent: 'center', // Căn giữa icon theo chiều dọc
+                                                alignItems: 'center', // Căn giữa icon theo chiều ngang
+                                                borderRadius: 15, // Làm tròn icon
+                                                backgroundColor: 'lightgrey', // Màu nền của icon, bạn có thể thay đổi
+                                        }}
+                                >
+                                        <Ionic
+                                                name="camera-outline"
+                                                size={24}
+                                                onPress={() => {
+                                                       setOpen(!isOpen);
+                                                }}
+                                        />
+                                </View>
                         </View>
 
                 </View>) : null}
@@ -132,6 +167,14 @@ const UpdateInfo = ({ route, navigation }) => {
                         textContent=""
                         textStyle={{ color: 'white', fontSize: 15 }}
                 />
+                {isOpen && (
+          <>
+            <AninatedPressable style={styles.backdrop} onPress={toggleSheet}  />
+            <View style={styles.sheet}>
+              <Text>Bottoms Sheet</Text>
+            </View>
+          </>
+        )}
                 <TouchableOpacity onPress={handleUpdate}
                         className="w-[30%] bg-blue-500 rounded-lg h-12 flex items-center justify-center mt-5 mb-5"
                 >
@@ -139,5 +182,28 @@ const UpdateInfo = ({ route, navigation }) => {
                 </TouchableOpacity>
         </View>
 }
+
+const styles = StyleSheet.create({
+        container: {
+          flex: 1,
+        //   backgroundColor: BACKGROUND_COLOR,
+        },
+        sheet: {
+          backgroundColor: "white",
+          padding: 16,
+          height: HEIGHT,
+          width: "100%",
+          position: "absolute",
+          bottom: -OVERDRAG * 1.1,
+          borderTopRightRadius: 20,
+          borderTopLeftRadius: 20,
+          zIndex: 1,
+        },
+        backdrop: {
+          ...StyleSheet.absoluteFillObject,
+          backgroundColor: BACKDROP_COLOR,
+          zIndex: 1,
+        },
+      });
 
 export default UpdateInfo;

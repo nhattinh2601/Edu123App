@@ -56,6 +56,7 @@ const CategoryDetails = ({route, navigation}) => {
       console.log(
         'loading ' + response.data.length+ ' course by category finish'
       );
+      // console.log(response.data);
       console.log('category details: ', elapsedTime, 'milliseconds');
       setIsLoading(false);
     } catch (error) {
@@ -142,7 +143,7 @@ const CategoryDetails = ({route, navigation}) => {
                   activeOpacity={0.9}
                   onPress={() =>
                     navigation.navigate('CourseDetails', {
-                      courseId: item.course_id,
+                      courseId: item.Id,
                     })
                   }
                   style={{

@@ -142,7 +142,7 @@ const App = () => {
           name="CourseDetails"
           component={CourseDetails}
           options={({navigation}) => ({
-            headerShown: true,
+            headerShown: false,
             headerTitle: 'Chi tiết khóa học',
             headerLeft: () => (
               <Ionic
@@ -245,6 +245,10 @@ const App = () => {
                 name="arrow-back"
                 size={24}
                 onPress={() => {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'User' }],
+                  });
                   navigation.goBack();
                 }}
                 style={{marginLeft: 15}}
