@@ -26,10 +26,17 @@ const UpdateInfo = ({ route, navigation }) => {
         const [notification, setNotification] = useState('');
         const [isModalVisible, setIsModalVisible] = useState(false);
         const [isOpen, setOpen] = useState(false);
-
+        
         const openCameraLib = async () => {
                 console.log("Press");
-                const result = await launchCamera();
+                const result = await launchCamera();                
+                setAvatarUpdate(result?.assets[0]?.uri);
+                console.log("Result=>>", result);
+        }
+        const openLib = async () => {
+                console.log("Press");
+                const result = await launchImageLibrary();                
+                setAvatarUpdate(result?.assets[0]?.uri);
                 console.log("Result=>>", result);
         }
 
@@ -182,7 +189,7 @@ const UpdateInfo = ({ route, navigation }) => {
                                                 </View>
                                         </TouchableOpacity>
                                         <View className="border-b border-black w-full mt-1 mb-1 opacity-20" />
-                                        <TouchableOpacity >
+                                        <TouchableOpacity onPress={openLib}>
                                                 <View className="item-center justify-center flex-row">
                                                 <Text className="font-semibold text-black text-base">Mở Thư viện</Text>
                                                 </View>
