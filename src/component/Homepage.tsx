@@ -62,7 +62,7 @@ const HomePage = ({navigation}) => {
       setIsLoading(true);
       const cachedData = await AsyncStorage.getItem('topSoldCourses');
       if (cachedData) {
-        settopSoldCourses(JSON.parse(cachedData));
+        settopSoldCourses(JSON.parse(cachedData));                
         setIsLoading(false);
       } else {
         const response = await axiosClient.get(
@@ -303,6 +303,15 @@ const HomePage = ({navigation}) => {
                     onPress={() =>
                       navigation.navigate('CourseDetails', {
                         courseId: item.course_id,
+                        title: item.title,
+                        user_name: item.user_name,
+                        image: item.image,
+                        price: item.price,
+                        promotional_price: item.promotional_price,
+                        description: item.description,
+                        sold: item.sold,
+                        rating: item.rating,
+                        userId: item.user_id, 
                       })
                     }
                     style={{

@@ -5,8 +5,7 @@ import {
         Image,
         TextInput,
         TouchableOpacity,
-        Modal,
-        Alert,
+        Modal,        
         StyleSheet,
         Pressable,
         Animated,
@@ -41,13 +40,17 @@ const UpdateInfo = ({ route, navigation }) => {
         const openCameraLib = async () => {
                 console.log('Press');
                 const result = await launchCamera();
-                setAvatarUpdate(result?.assets[0]?.uri);
+                if (result.assets && result.assets.length > 0 && result.assets[0].uri) {
+                        setAvatarUpdate(result?.assets[0]?.uri);              
+                }
                 console.log('Result=>>', result);
         };
         const openLib = async () => {
                 console.log('Press');
                 const result = await launchImageLibrary();
-                setAvatarUpdate(result?.assets[0]?.uri);
+                if (result.assets && result.assets.length > 0 && result.assets[0].uri) {
+                        setAvatarUpdate(result?.assets[0]?.uri);              
+                }
                 console.log('Result=>>', result);
         };
 
