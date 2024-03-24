@@ -2,7 +2,6 @@ import Ionic from 'react-native-vector-icons/Ionicons';
 import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, ScrollView, Image, ActivityIndicator, FlatList } from 'react-native';
 import axiosClient from '../../api/axiosClient';
-import Spinner from "react-native-loading-spinner-overlay";
 import { Rating } from 'react-native-ratings';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
@@ -38,7 +37,6 @@ const CourseDetails = ({ route, navigation }) => {
       const response = await axiosClient.get('/users/' + userId);
       setIsLoading(false);
       setTeacherData(response.data);
-      console.log(response.data);
     } catch (error) {
       setIsLoading(false);
     }
@@ -52,16 +50,20 @@ const CourseDetails = ({ route, navigation }) => {
       const videoList = videoResponse.data;
       const VideoData = videoList.filter((item) => !item.isDeleted);
       setLessionData(VideoData);
-      console.log(videoResponse.data);
     } catch (error) {
       setIsLoading(false);
     }
   }
 
   const loadReviewData = async () => {
-    const reviewResponse = await axiosClient.get(`/reviews/course=${courseId}`);
-    setReviewData(reviewResponse.data);
-    console.log(reviewResponse.data);
+    try {
+      setIsLoading(true);
+      const reviewResponse = await axiosClient.get(`/reviews/course=${courseId}`);
+      setIsLoading(false);
+      setReviewData(reviewResponse.data);
+    } catch (error) {
+      setIsLoading(false);
+    }
   }
 
 
@@ -125,11 +127,15 @@ const CourseDetails = ({ route, navigation }) => {
             <Text className='text-black text-base'>{description}</Text>
           </View>
           <View className=' items-start p-1 flex-row justify-between'>
-            <Rating
-              ratingCount={5}
-              imageSize={15}
-              startingValue={numericRating}
-            />
+            {!isNaN(numericRating) && (
+              <Rating
+                ratingCount={5}
+                imageSize={15}
+                startingValue={numericRating}
+              />
+            )}
+
+
             <Text className='pr-5'>{sold} học viên</Text>
           </View>
           <View className=''>
@@ -160,7 +166,6 @@ const CourseDetails = ({ route, navigation }) => {
         </View>
         <View style={{ width: '90%', marginLeft: 10, marginRight: 10, flex: 1 }}>
           <Text className='font-semibold text-black text-lg'>Nội dung khóa học</Text>
-
           {/* nội dung */}
           <View>
             <View>
@@ -211,6 +216,9 @@ const CourseDetails = ({ route, navigation }) => {
           </View>
           {/* bình luận */}
           <View>
+            {isLoading && (
+              <ActivityIndicator size="large" color="grey" />
+            )}
             {reviewData.map((review, index) => (
               <View key={index} >
                 <View className='items-start flex-row pl-2'>
@@ -227,8 +235,6 @@ const CourseDetails = ({ route, navigation }) => {
               </View>
             ))}
           </View>
-          
-          {/* hết bình luận */}
 
           <View className='items-center '>
             <TouchableOpacity style={{ alignItems: 'center', padding: 10, backgroundColor: 'white', width: '50%', borderRadius: 5, marginTop: 10 }}>

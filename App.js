@@ -18,7 +18,7 @@ import Register from './src/component/Account/Register';
 import ForgetPassword from './src/component/Account/ForgetPassword';
 import ChangePassword from './src/component/Account/ChangePassword';
 import UpdateInfo from './src/component/Account/UpdateInfo';
-
+import CourseStudy from './src/component/Course/CourseStudy';
 import React from 'react';
 
 const Stack = createStackNavigator();
@@ -100,7 +100,10 @@ const BottomTabs = () => {
           headerShown: false,
         })}
       />
-      <Tab.Screen name="Study" component={Study} />
+      <Tab.Screen name="Study" component={Study} options={{
+          title: 'Các khóa học của tôi', // Tiêu đề của tab
+          headerTitleAlign: 'center',
+        }} />
       <Tab.Screen
         name="User"
         component={User}
@@ -141,6 +144,24 @@ const App = () => {
         <Stack.Screen
           name="CourseDetails"
           component={CourseDetails}
+          options={({navigation}) => ({
+            headerShown: false,
+            headerTitle: 'Chi tiết khóa học',
+            headerLeft: () => (
+              <Ionic
+                name="arrow-back"
+                size={24}
+                onPress={() => {
+                  navigation.goBack();
+                }}
+                style={{marginLeft: 15}}
+              />
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="CourseStudy"
+          component={CourseStudy}
           options={({navigation}) => ({
             headerShown: false,
             headerTitle: 'Chi tiết khóa học',

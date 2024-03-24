@@ -302,18 +302,19 @@ const HomePage = ({navigation}) => {
                     activeOpacity={0.9}
                     onPress={() =>
                       navigation.navigate('CourseDetails', {
-                        courseId: item.course_id,
+                        courseId:  item.course_id || item.courseId || '',
                         title: item.title,
-                        user_name: item.user_name,
+                        user_name: item.user_name || item.name || '',
                         image: item.image,
-                        price: item.price,
-                        promotional_price: item.promotional_price,
-                        description: item.description,
-                        sold: item.sold,
-                        rating: item.rating,
-                        userId: item.user_id, 
+                        price: item?.price,
+                        promotional_price: item?.promotional_price,
+                        description: item?.description,
+                        sold: item?.sold,
+                        rating: item?.rating,
+                        userId: item.user_id || item.userId || '', 
                       })
                     }
+                    
                     style={{
                       backgroundColor: 'transparent',
                     }}>
