@@ -1,6 +1,6 @@
 import Ionic from 'react-native-vector-icons/Ionicons';
 import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Dimensions, ScrollView, Image, Linking, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, ScrollView, Image, Linking, ActivityIndicator, StyleSheet } from 'react-native';
 import axiosClient from '../../api/axiosClient';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -9,8 +9,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Video from 'react-native-video';
 import YoutubePlayer from "react-native-youtube-iframe";
-import { height } from '@fortawesome/free-solid-svg-icons/fa0';
 
+
+
+const { width, height } = Dimensions.get('window');
 
 const CourseStudy = ({ route, navigation }) => {
   const { courseId, title, user_name, image, price, promotional_price, description, sold, rating, userId } = route.params;
@@ -32,9 +34,9 @@ const CourseStudy = ({ route, navigation }) => {
   const [documentData, setDocumentData] = useState([]);
   const [teacherData, setTeacherData] = useState(null);
 
-  // chỗ này cho vào loadURL, dựa vào id của video để lấy chi viết video và bình luận 
+  // id video để lấy dữ liệu comment theo video
   const [lessionCurrentID, setLessionCurrentID] = useState();
-  // chỉ mục để lấy được title của video trong mảng video và tô màu cho video đang xem
+  // chỉ mục để tô màu cho video đang xem
   const [lessionIndex, setLessionIndex] = useState(0)
 
   const loadTeacherData = async () => {
@@ -93,7 +95,7 @@ const CourseStudy = ({ route, navigation }) => {
       const documentResponse = await axiosClient.get(
         `/documents/course=${courseId}`
       );
-      setDocumentData(documentResponse.data);      
+      setDocumentData(documentResponse.data);
     } catch (error) {
       setIsLoading(false);
     }
@@ -111,6 +113,26 @@ const CourseStudy = ({ route, navigation }) => {
     const date = new Date(timestamp);
     return date.toLocaleString();
   };
+
+  function youtube_parser(url) {
+    var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    var match = url.match(regExp);
+    if (match && match[2].length == 11) {
+      return match[2];
+    } else {
+      //error
+    }
+  }
+
+  function isYoutube(url) {
+    // Biểu thức chính quy để kiểm tra đường link YouTube
+    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?.*v=|embed\/|v\/)|youtu\.be\/)/;
+
+    // Kiểm tra xem đường link có khớp với biểu thức chính quy không
+    return youtubeRegex.test(url);
+  }
+
+
 
   return (
     <View className="flex flex-col h-full justify-center items-center">
@@ -145,33 +167,42 @@ const CourseStudy = ({ route, navigation }) => {
       </View>
 
       {/* Video */}
-      <View className=' w-full h-[30%] flex-1 pb-3'>
-        {/* <Video
+      <View className=' w-full  h-[35%] z-10 ' >
+      {/* <Video
           source={{ uri: 'http://res.cloudinary.com/dqptxftlv/video/upload/v1704294656/bksdl3wcgwoacuup2ihl.mp4' }} // Đường dẫn của video
+          style={styles.video}
+          resizeMode="cover"
+          paused={fa}
+          repeat
+        /> */}
+        {isYoutube(videoURL) ? (<YoutubePlayer
+          height='100%'
+          play={true}
+          videoId={youtube_parser(videoURL)}
+        // onChangeState={onStateChange}
+        />) : (<Video
+          source={{ uri: videoURL }} // Đường dẫn của video
           style={styles.video}
           resizeMode="cover"
           paused={false}
           repeat
-        />
+        />)}
+        {/* 
       </View>
       <View className='w-[80%] h-[20%]'>
          */}
-         <YoutubePlayer
-          height={height*0.35}
-          play={true}
-          videoId={"YaXJeUkBe4Y"}
-        // onChangeState={onStateChange}
-        />
+
         {/* <View>
-          <Text>{videoURL}</Text>
+          <Text>{youtube_parser(videoURL)}</Text>
         </View> */}
+        {/*  */}
       </View>
 
       {/* title video + username teacher */}
-      <View style={{ width: '90%', marginLeft: 10, marginRight: 10 }}>
+      <View className='w-[90%] ml-10 mr-10' >
         <View className='items-start'>
           {lessionData.length > 0 ? (
-            <Text className='text-black font-semibold text-base'>{titleVideo}</Text> // Hiển thị title của phần tử đầu tiên
+            <Text className='text-black font-semibold text-base'>{titleVideo} {isYoutube(videoURL) ? ' là video youtube' : ' là cloudinary'} </Text> // Hiển thị title của phần tử đầu tiên
           ) : (
             <ActivityIndicator size="small" color="grey" />
           )}
@@ -278,3 +309,11 @@ const CourseStudy = ({ route, navigation }) => {
 
 export default CourseStudy;
 
+
+const styles = StyleSheet.create({
+  video: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  },
+});
